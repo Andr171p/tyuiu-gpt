@@ -1,7 +1,9 @@
 from neo4j import GraphDatabase
 
 
-uri = "bolt://localhost:7687"
+# uri = "bolt://localhost:7687"
+
+uri = "bolt://shortline.proxy.rlwy.net:53207"
 
 driver = GraphDatabase.driver(uri)
 
