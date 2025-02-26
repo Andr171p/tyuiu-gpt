@@ -13,6 +13,15 @@ uri = "bolt://shortline.proxy.rlwy.net:53207"
 
 driver = GraphDatabase.driver(uri)
 
+def clear_database(tx):
+    tx.run("MATCH (n) DETACH DELETE n;")
+
+with driver.session() as session:
+    session.write_transaction(clear_database)
+    print("Graph was cleared")
+
+driver.close()
+
 
 with open(FILE_PATH, mode="r", encoding="utf-8") as file:
     data = file.read()

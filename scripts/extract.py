@@ -1,9 +1,13 @@
 import py2neo
 from py2neo import Graph, NodeMatcher
 
+uri = "bolt://shortline.proxy.rlwy.net:53207"
 
-graph_db = Graph("bolt://localhost:7687")
+# uri = "bolt://localhost:7687"
+
+graph_db = Graph(uri)
 matcher = NodeMatcher(graph_db)
+print("Connected to neo4j successfully")
 
 def get_subgraph_by_entity_name(entity_name):
     """
@@ -54,7 +58,7 @@ import py2neo
 from py2neo import Graph, NodeMatcher
 
 # Установите параметры соединения с вашей базой данных Neo4j
-graph_db = Graph("bolt://localhost:7687", auth=("username", "password"))
+graph_db = Graph(uri)
 matcher = NodeMatcher(graph_db)
 
 def get_subgraph_by_entity_name(entity_name):
