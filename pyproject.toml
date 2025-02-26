@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "tyuiuaichatbotapi"
+version = "0.1.0"
+description = ""
+authors = ["AndreyKosov <andrey.kosov.05@inbox.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = {extras = ["all"], version = "^0.115.8"}
+py2neo = "^2021.2.4"
+networkx = "^3.4.2"
+neo4j = "^5.28.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
