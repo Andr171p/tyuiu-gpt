@@ -1,7 +1,7 @@
 import re
 from pathlib import Path
 from neo4j import GraphDatabase
-from concurrent.futures import ThreadPoolExecutor
+from sentence_transformers import SentenceTransformer
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,6 +21,8 @@ with driver.session() as session:
     session.write_transaction(clear_database)
 
 driver.close()
+
+print("Graph database cleared")
 
 
 with open(FILE_PATH, mode="r", encoding="utf-8") as file:
