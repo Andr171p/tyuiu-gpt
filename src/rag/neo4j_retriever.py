@@ -1,7 +1,7 @@
 from typing import Any, List, Optional
 
 import networkx as nx
-from py2neo import Graph, NodeMatcher
+from py2neo import Graph
 
 from langchain_core.callbacks import CallbackManagerForRetrieverRun
 from langchain_core.documents import Document
@@ -19,7 +19,6 @@ class Neo4jRetriever(BaseRetriever):
     ) -> None:
         super().__init__(*args, **kwargs)
         self._graph = Graph(uri)
-        self._node_matcher = NodeMatcher(self._graph)
 
     def get_subgraph_by_entity_name(
             self,
