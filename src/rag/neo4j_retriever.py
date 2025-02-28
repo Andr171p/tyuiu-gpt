@@ -34,13 +34,32 @@ class Neo4jRetriever(BaseRetriever):
         subgraph = build_subgraph_from_cursor(cursor)
         return subgraph
 
+    def get_subgraph_by_entities_names(
+            self,
+            entities_names: List[str]
+    ) -> nx.MultiDiGraph | None:
+        if not entities_names:
+            return None
+        cursor = self._graph.run(
+            cypher="""
+            MATCH path = (n)-[*0..1]-(m:Entity)
+            WHERE m.name IN $entities_names
+            RETURN nodes(path) AS nodes, relationships(path) AS rels
+            """,
+            parameters={"entities_names": entities_names}
+        )
+        subgraph = build_subgraph_from_cursor(cursor)
+        return subgraph
+
     def _get_relevant_documents(
             self,
-            query: str,
+            query: list[str],
             *,
             run_manager: CallbackManagerForRetrieverRun
     ) -> List[Optional[Document]]:
-        subgraph = self.get_subgraph_by_entity_name(query)
+        print(f"query: {query}")
+        # subgraph = self.get_subgraph_by_entity_name(query)
+        subgraph = self.get_subgraph_by_entities_names(query)
         if subgraph is None:
             return []
         documents = []
@@ -71,9 +90,9 @@ class Neo4jRetriever(BaseRetriever):
 
 
 '''from src.config import settings
-graph = Graph(settings.neo4j.uri)
-node_matcher = NodeMatcher(graph)
-retriever = Neo4jRetriever(graph, node_matcher)
-docs = retriever.invoke("ДОПОЛНИТЕЛЬНЫЕ_БАЛЛЫ")
-for doc in docs:
-    print(doc.page_content)'''
+retriever = Neo4jRetriever(settings.neo4j.uri)
+docs = retriever.invoke(
+    ['ТИУ', 'ИСТОРИЯ', 'ДРУГИЕ_ВОЙСКА', 'О-ЗФО']
+)
+print(docs)
+'''
