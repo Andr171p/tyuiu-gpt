@@ -90,6 +90,7 @@ model = GigaChat(
 
 file_path = r"C:\Users\andre\IdeaProjects\TyuiuAIChatBotAPI\prompts\Сотрудник_приёмной_комиссии.txt"
 
+
 prompt = ChatPromptTemplate.from_template(load_txt(file_path))
 
 
@@ -115,5 +116,5 @@ hybrid_rag_chain = RunnableParallel(
 )
 
 
-results = graph_rag_chain.invoke("Какой проходной балл на 09.03.01 Информатика и вычислительная техника	")
+results = hybrid_rag_chain.invoke("Как поступают абитуриенты из Белоруссии")
 print(results)
