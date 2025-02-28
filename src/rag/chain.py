@@ -115,5 +115,5 @@ hybrid_rag_chain = RunnableParallel(
 )
 
 
-results = graph_rag_chain.invoke("Посоветуй мне направления подготовки если я сдаю профильную математику, русский и информатику")
+results = graph_rag_chain.invoke("Какой проходной балл на 09.03.01 Информатика и вычислительная техника	")
 print(results)

@@ -1,12 +1,13 @@
 import re
 from pathlib import Path
 from neo4j import GraphDatabase
-from sentence_transformers import SentenceTransformer
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-FILE_PATH = BASE_DIR / "scripts" / "ТИУ_Entities_Relations_Passed_Scores.txt"
+# FILE_PATH = BASE_DIR / "scripts" / "ТИУ_проходные_баллы_2024.txt"
+
+FILE_PATH: Path = BASE_DIR / "scripts" / "ТИУ_проходные_баллы_2024.txt"
 
 # uri = "bolt://localhost:7687"
 

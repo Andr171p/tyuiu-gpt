@@ -5,7 +5,7 @@ from neo4j import GraphDatabase
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-FILE_PATH = BASE_DIR / "notebooks" / "ТИУ Сущности База знаний.txt"
+FILE_PATH = BASE_DIR / "notebooks" / "ТИУ_Графовая_База_знаний.txt"
 
 # uri = "bolt://localhost:7687"
 
