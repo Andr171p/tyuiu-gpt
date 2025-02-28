@@ -53,7 +53,7 @@ class Neo4jRetriever(BaseRetriever):
 
     def _get_relevant_documents(
             self,
-            query: list[str],
+            query: List[str],
             *,
             run_manager: CallbackManagerForRetrieverRun
     ) -> List[Optional[Document]]:
