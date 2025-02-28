@@ -6,7 +6,7 @@ from sentence_transformers import SentenceTransformer
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-FILE_PATH = BASE_DIR / "notebooks" / "ТИУ Сущности База знаний.txt"
+FILE_PATH = BASE_DIR / "scripts" / "ТИУ_Entities_Relations_Passed_Scores.txt"
 
 # uri = "bolt://localhost:7687"
 
@@ -14,15 +14,15 @@ uri = "bolt://shortline.proxy.rlwy.net:53207"
 
 driver = GraphDatabase.driver(uri)
 
-def clear_database(tx):
+'''def clear_database(tx):
     tx.run("MATCH (n) DETACH DELETE n;")
 
 with driver.session() as session:
-    session.write_transaction(clear_database)
+    session.execute_write(clear_database)
 
 driver.close()
 
-print("Graph database cleared")
+print("Graph database cleared")'''
 
 
 with open(FILE_PATH, mode="r", encoding="utf-8") as file:
@@ -44,7 +44,7 @@ for match in entity_pattern.finditer(data):
         "description": entity_description.strip()
     })
 print(f"---Count of entities: {len(entities)}---")
-print(entities[1575])
+print(entities[15])
 
 relationships: list[dict] = []
 for match in relationship_pattern.finditer(data):
