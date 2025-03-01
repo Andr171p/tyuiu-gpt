@@ -17,6 +17,7 @@ langchain-elasticsearch = "^0.3.2"
 langchain-gigachat = "^0.3.4"
 langchain-community = "^0.3.18"
 sentence-transformers = "^3.4.1"
+dependency-injector = "^4.46.0"
 
 
 [build-system]

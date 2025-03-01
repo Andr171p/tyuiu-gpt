@@ -7,7 +7,7 @@ from langchain_core.callbacks import CallbackManagerForRetrieverRun
 from langchain_core.documents import Document
 from langchain_core.retrievers import BaseRetriever
 
-from src.utils.graph import build_subgraph_from_cursor
+from src.rag.rag_utils import build_subgraph_from_cursor
 
 
 class Neo4jRetriever(BaseRetriever):

@@ -1,0 +1,26 @@
+from typing import Annotated
+
+from fastapi import APIRouter, Depends, status
+from fastapi.responses import JSONResponse
+
+from src.chat_bot import ChatBot
+from src.api_v1.dependencies import get_chat_bot
+from src.api_v1.schemas import GetAnswerOnQuestionSchema, AnswerResponse
+
+
+chat_router = APIRouter(
+    prefix="/api/v1/chat",
+    tags=["ChatBot"]
+)
+
+
+@chat_router.post(path="/", response_model=AnswerResponse)
+async def get_answer_on_question(
+        question: GetAnswerOnQuestionSchema,
+        chat_bot: Annotated[ChatBot, Depends(get_chat_bot)]
+) -> JSONResponse:
+    answer = await chat_bot.answer(question.question)
+    return JSONResponse(
+        status_code=status.HTTP_200_OK,
+        content=AnswerResponse(answer=answer).model_dump()
+    )
