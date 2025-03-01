@@ -24,7 +24,7 @@ class HybridRAG(BaseRAG):
         self._chain = (
             {
                 "context": retriever | format_docs_func,
-                "query": RunnablePassthrough()
+                "question": RunnablePassthrough()
             } |
             prompt |
             model |

@@ -41,7 +41,7 @@ class Container:
     prompt = ChatPromptTemplate.from_template(
         template=load_txt(r"C:\Users\andre\IdeaProjects\TyuiuAIChatBotAPI\prompts\Сотрудник_приёмной_комиссии.txt")
     )
-    model = GigaChat(
+    gigachat_model = GigaChat(
         credentials=settings.gigachat.api_key,
         scope=settings.gigachat.scope,
         model=settings.gigachat.model_name,
@@ -53,7 +53,7 @@ class Container:
         retriever=ensemble_retriever,
         format_docs_func=format_docs,
         prompt=prompt,
-        model=model,
+        model=gigachat_model,
         parser=parser
     )
     chat_bot = ChatBot(rag)
