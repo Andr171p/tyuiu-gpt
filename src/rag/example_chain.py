@@ -8,9 +8,9 @@ from langchain_gigachat.chat_models import GigaChat
 from langchain_core.output_parsers.string import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough, RunnableParallel
 
-from src.rag.neo4j_retriever import Neo4jRetriever
+from src.rag.graph.neo4j_retriever import Neo4jRetriever
 from src.utils.files import load_txt
-from src.rag.rag_helpers import extract_page_content, format_docs
+from src.rag.rag_helpers import extract_page_content, format_docs, select_top_k_documents
 from src.config import settings
 
 
@@ -108,13 +108,16 @@ graph_rag_chain = (
 )
 
 
-hybrid_rag_chain = RunnableParallel(
+hybrid_rag_chain = (
     {
         "context": ensemble_retriever | format_docs,
         "question": RunnablePassthrough()
-    }
+    } |
+    prompt |
+    model |
+    parser
 )
 
 
-results = hybrid_rag_chain.invoke("Как поступают абитуриенты из Белоруссии")
+results = hybrid_rag_chain.invoke("Как работает система приоритетов")
 print(results)
