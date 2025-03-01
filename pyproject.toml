@@ -19,6 +19,8 @@ langchain-community = "^0.3.18"
 sentence-transformers = "^3.4.1"
 dependency-injector = "^4.46.0"
 uvicorn = "^0.34.0"
+yandexcloud = "^0.334.0"
+yandex-cloud-ml-sdk = "^0.4.1"
 
 
 [build-system]

@@ -5,6 +5,7 @@ from langchain_community.retrievers import ElasticSearchBM25Retriever
 from langchain.retrievers import EnsembleRetriever
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_gigachat.chat_models import GigaChat
+from yandex_chain import YandexLLM, YandexGPTModel
 from langchain_core.output_parsers.string import StrOutputParser
 
 from src.rag.hybrid import HybridRAG
@@ -41,19 +42,24 @@ class Container:
     prompt = ChatPromptTemplate.from_template(
         template=load_txt(r"C:\Users\andre\IdeaProjects\TyuiuAIChatBotAPI\prompts\Сотрудник_приёмной_комиссии.txt")
     )
-    gigachat_model = GigaChat(
+    '''gigachat_model = GigaChat(
         credentials=settings.gigachat.api_key,
         scope=settings.gigachat.scope,
         model=settings.gigachat.model_name,
         verify_ssl_certs=False,
         profanity_check=False
+    )'''
+    yandex_llm = YandexLLM(
+        folder_id=settings.yandexgpt.folder_id,
+        api_key=settings.yandexgpt.api_key,
+        model=YandexGPTModel.Pro,
     )
-    parser = StrOutputParser()
-    rag = HybridRAG(
+    str_output_parser = StrOutputParser()
+    hybrid_rag = HybridRAG(
         retriever=ensemble_retriever,
         format_docs_func=format_docs,
         prompt=prompt,
-        model=gigachat_model,
-        parser=parser
+        model=yandex_llm,
+        parser=str_output_parser
     )
-    chat_bot = ChatBot(rag)
+    chat_bot = ChatBot(hybrid_rag)

@@ -32,11 +32,17 @@ class GigachatSettings(BaseSettings):
     prompt: str = os.path.join(BASE_DIR, "prompts", "Сотрудник_приёмной_комиссии.txt")
 
 
+class YandexGPTSettings(BaseSettings):
+    folder_id: str = os.getenv("YANDEX_FOLDER_ID")
+    api_key: str = os.getenv("YANDEX_GPT_API_KEY")
+
+
 class Settings(BaseSettings):
     embeddings: EmbeddingsSettings = EmbeddingsSettings()
     elastic: ElasticSettings = ElasticSettings()
     neo4j: Neo4jSettings = Neo4jSettings()
     gigachat: GigachatSettings = GigachatSettings()
+    yandexgpt: YandexGPTSettings = YandexGPTSettings()
 
 
 settings = Settings()

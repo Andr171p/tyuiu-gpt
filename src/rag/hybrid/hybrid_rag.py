@@ -1,10 +1,11 @@
-from typing import TYPE_CHECKING, Callable, List
+from typing import TYPE_CHECKING, Callable, List, Union
 
 if TYPE_CHECKING:
     from langchain_core.retrievers import BaseRetriever
     from langchain_core.documents import Document
     from langchain_core.prompts import BasePromptTemplate
     from langchain_core.language_models import BaseChatModel
+    from langchain_core.language_models.llms import LLM
     from langchain_core.output_parsers import BaseTransformOutputParser
 
 from langchain_core.runnables import RunnablePassthrough
@@ -18,7 +19,7 @@ class HybridRAG(BaseRAG):
             retriever: "BaseRetriever",
             format_docs_func: Callable[[List["Document"]], str],
             prompt: "BasePromptTemplate",
-            model: "BaseChatModel",
+            model: Union["LLM", "BaseChatModel"],
             parser: "BaseTransformOutputParser"
     ) -> None:
         self._chain = (
