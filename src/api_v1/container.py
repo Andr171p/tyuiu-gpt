@@ -40,7 +40,7 @@ class Container:
         weights=[0.6, 0.4]
     )
     prompt = ChatPromptTemplate.from_template(
-        template=load_txt(r"C:\Users\andre\IdeaProjects\TyuiuAIChatBotAPI\prompts\Сотрудник_приёмной_комиссии.txt")
+        template=load_txt(settings.gigachat.prompt)
     )
     '''gigachat_model = GigaChat(
         credentials=settings.gigachat.api_key,
