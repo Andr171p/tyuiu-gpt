@@ -109,4 +109,5 @@ aiofiles
 sentence-transformers
 neo4j
 langchain-elasticsearch
+langchain-gigachat
 yandex-chain
