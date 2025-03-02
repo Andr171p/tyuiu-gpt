@@ -2,7 +2,7 @@ langchain-core
 networkx
 py2neo
 langchain
-elasticsearc
+elasticsearch
 langchain-community
 fastapi
 pydantic
