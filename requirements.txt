@@ -48,10 +48,10 @@ kiwisolver==1.4.8
 langchain-core
 langchain
 langchain-community
-langchain-elasticsearch==0.3.2
-langchain-gigachat==0.3.4
-langchain-text-splitters==0.2.4
-langsmith==0.1.147
+langchain-elasticsearch
+langchain-gigachat
+langchain-text-splitters
+langsmith
 markdown-it-py==3.0.0
 MarkupSafe==3.0.2
 marshmallow==3.26.1
