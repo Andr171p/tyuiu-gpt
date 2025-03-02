@@ -13,6 +13,7 @@ sentence-transformers~=3.4.1
 langchain-core~=0.3.40
 langchain~=0.3.19
 langchain-community~=0.3.18
+langchain_gigachat~=0.3.4
 langchain-elasticsearch~=0.3.2
 langsmith~=0.3.11
 langchain-text-splitters~=0.3.6
