@@ -108,3 +108,5 @@ httpx-sse
 aiofiles
 sentence-transformers
 neo4j
+langchain-elasticsearch
+yandex-chain
