@@ -20,5 +20,6 @@ langchain-text-splitters~=0.3.6
 elasticsearch~=8.17.1
 sqlalchemy~=2.0.38
 neo4j~=5.28.1
+yandex-chain~=0.0.10
 yandexcloud~=0.334.0
 yandex-cloud-ml-sdk~=0.4.1
