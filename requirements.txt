@@ -59,7 +59,7 @@ ujson
 markupsafe
 joblib
 orjson
-interchang
+interchange
 six
 monotonic
 aiosignal
