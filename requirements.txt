@@ -1,7 +1,7 @@
 langchain-core
 networkx
 py2neo
-langchain
+# langchain
 elasticsearch
 langchain-community
 fastapi
