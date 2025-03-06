@@ -3,7 +3,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, status
 from fastapi.responses import JSONResponse
 
-from src.chat_bot import ChatBot
+from src.services.chat_bot_service import ChatBot
 from src.api_v1.dependencies import get_chat_bot
 from src.api_v1.schemas import GetAnswerOnQuestionSchema, AnswerResponse
 

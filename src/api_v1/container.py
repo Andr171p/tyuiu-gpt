@@ -4,13 +4,12 @@ from langchain_elasticsearch import ElasticsearchStore
 from langchain_community.retrievers import ElasticSearchBM25Retriever
 from langchain.retrievers import EnsembleRetriever
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_gigachat.chat_models import GigaChat
-from yandex_chain import YandexLLM, YandexGPTModel
+from langchain_community.chat_models import ChatYandexGPT
 from langchain_core.output_parsers.string import StrOutputParser
 
 from src.rag.hybrid import HybridRAG
 from src.rag.rag_utils import format_docs, load_txt
-from src.chat_bot import ChatBot
+from src.services.chat_bot_service import ChatBotService
 from src.config import settings
 
 
@@ -49,17 +48,16 @@ class Container:
         verify_ssl_certs=False,
         profanity_check=False
     )'''
-    yandex_llm = YandexLLM(
+    yandex_gpt_model = ChatYandexGPT(
         folder_id=settings.yandexgpt.folder_id,
-        api_key=settings.yandexgpt.api_key,
-        model=YandexGPTModel.Pro,
+        api_key=settings.yandexgpt.api_key
     )
     str_output_parser = StrOutputParser()
     hybrid_rag = HybridRAG(
         retriever=ensemble_retriever,
         format_docs_func=format_docs,
         prompt=prompt,
-        model=yandex_llm,
+        model=yandex_gpt_model,
         parser=str_output_parser
     )
-    chat_bot = ChatBot(hybrid_rag)
+    chat_bot = ChatBotService(hybrid_rag)

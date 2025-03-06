@@ -3,4 +3,4 @@ __all__ = (
     "AnswerResponse"
 )
 
-from src.api_v1.schemas.chat_schemas import GetAnswerOnQuestionSchema, AnswerResponse
+from src.api_v1.schemas.chat_bot_schemas import GetAnswerOnQuestionSchema, AnswerResponse

@@ -1,7 +1,7 @@
 langchain-core
 networkx
 py2neo
-# langchain
+langchain
 elasticsearch
 langchain-community
 fastapi
@@ -110,4 +110,3 @@ sentence-transformers
 neo4j
 langchain-elasticsearch
 langchain-gigachat
-yandex-chain

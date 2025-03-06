@@ -1,5 +1,5 @@
 from src.api_v1.container import Container
-from src.chat_bot import ChatBot
+from src.services.chat_bot_service import ChatBot
 
 
 container = Container()
