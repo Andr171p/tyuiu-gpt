@@ -29,12 +29,15 @@ class GigachatSettings(BaseSettings):
     api_key: str = os.getenv("GIGACHAT_API_KEY")
     scope: str = os.getenv("GIGACHAT_SCOPE")
     model_name: str = os.getenv("GIGACHAT_MODEL_NAME")
-    prompt: str = os.path.join(BASE_DIR, "prompts", "Сотрудник_приёмной_комиссии.txt")
 
 
 class YandexGPTSettings(BaseSettings):
     folder_id: str = os.getenv("YANDEX_FOLDER_ID")
     api_key: str = os.getenv("YANDEX_GPT_API_KEY")
+
+
+class PromptsSettings(BaseSettings):
+    prompt_path: str = os.path.join(BASE_DIR, "prompts", "Сотрудник_приёмной_комиссии.txt")
 
 
 class Settings(BaseSettings):
@@ -43,6 +46,7 @@ class Settings(BaseSettings):
     neo4j: Neo4jSettings = Neo4jSettings()
     gigachat: GigachatSettings = GigachatSettings()
     yandexgpt: YandexGPTSettings = YandexGPTSettings()
+    prompts: PromptsSettings = PromptsSettings()
 
 
 settings = Settings()

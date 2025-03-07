@@ -10,6 +10,7 @@ if TYPE_CHECKING:
 
 from langchain_core.runnables import RunnablePassthrough
 
+from src.rag.rag_utils import format_docs
 from src.rag.base_rag import BaseRAG
 
 
@@ -17,14 +18,13 @@ class HybridRAG(BaseRAG):
     def __init__(
             self,
             retriever: "BaseRetriever",
-            format_docs_func: Callable[[List["Document"]], str],
             prompt: "BasePromptTemplate",
             model: Union["LLM", "BaseChatModel"],
             parser: "BaseTransformOutputParser"
     ) -> None:
         self._chain = (
             {
-                "context": retriever | format_docs_func,
+                "context": retriever | format_docs,
                 "question": RunnablePassthrough()
             } |
             prompt |
@@ -33,5 +33,4 @@ class HybridRAG(BaseRAG):
         )
 
     async def generate(self, query: str) -> str:
-        result = await self._chain.ainvoke(query)
-        return result
+        return await self._chain.ainvoke(query)
