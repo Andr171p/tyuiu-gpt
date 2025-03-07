@@ -1,7 +1,7 @@
 from src.rag import BaseRAG
 
 
-class ChatBotService:
+class ChatBotUseCase:
     def __init__(self, rag: BaseRAG) -> None:
         self._rag = rag
 
