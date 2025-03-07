@@ -8,7 +8,7 @@ from langchain_community.retrievers import ElasticSearchBM25Retriever
 
 
 with open(
-        file="ТИУ База знаний.txt",
+        file="../documents/ТИУ База знаний.txt",
         mode="r",
         encoding="utf-8"
 ) as file:
