@@ -6,13 +6,14 @@ from langchain_community.retrievers import ElasticSearchBM25Retriever
 from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.retrievers import EnsembleRetriever
 from langchain_core.prompts import ChatPromptTemplate
+from langchain_community.llms.yandex import YandexGPT
 from langchain_core.output_parsers.string import StrOutputParser
 
 from langchain_core.vectorstores import VectorStore, VectorStoreRetriever
 from langchain_core.retrievers import BaseRetriever
 from langchain_core.embeddings import Embeddings
 from langchain_core.output_parsers import BaseTransformOutputParser
-from langchain_core.language_models import BaseChatModel
+from langchain_core.language_models import BaseChatModel, BaseLLM
 
 from src.rag import BaseRAG
 from src.rag.hybrid import HybridRAG
@@ -73,8 +74,11 @@ class RAGProvider(Provider):
         return ChatPromptTemplate.from_template(read_txt(settings.prompts.prompt_path))
 
     @provide(scope=Scope.APP)
-    def get_model(self) -> BaseChatModel:
-        return ...
+    def get_model(self) -> BaseChatModel | BaseLLM:
+        return YandexGPT(
+            api_key=settings.yandexgpt.api_key,
+            folder_id=settings.yandexgpt.folder_id,
+        )
 
     @provide(scope=Scope.APP)
     def get_parser(self) -> BaseTransformOutputParser:
@@ -85,7 +89,7 @@ class RAGProvider(Provider):
             self,
             retriever: BaseRetriever,
             prompt: ChatPromptTemplate,
-            model: BaseChatModel,
+            model: BaseChatModel | BaseLLM,
             parser: BaseTransformOutputParser
     ) -> BaseRAG:
         return HybridRAG(
