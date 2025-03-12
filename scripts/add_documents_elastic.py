@@ -1,4 +1,5 @@
 from uuid import uuid4
+from pathlib import Path
 from elasticsearch import Elasticsearch
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.documents import Document
@@ -7,8 +8,13 @@ from langchain.embeddings import HuggingFaceEmbeddings
 from langchain_community.retrievers import ElasticSearchBM25Retriever
 
 
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+FILE_PATH = BASE_DIR / "documents" / "texts" / "ТИУ_Описание_направлений_подготовки.txt"
+
+
 with open(
-        file="../documents/ТИУ База знаний.txt",
+        file=FILE_PATH,
         mode="r",
         encoding="utf-8"
 ) as file:
@@ -31,7 +37,7 @@ print(f"Первые {N} чанков:")
 # chunks[:N]
 
 embeddings = HuggingFaceEmbeddings(
-    model_name="ai-forever/sbert_large_nlu_ru",
+    model_name="intfloat/multilingual-e5-large",
     model_kwargs={"device": "cpu"},
     encode_kwargs={'normalize_embeddings': False},
 )
@@ -41,13 +47,13 @@ elastic_client = Elasticsearch(
     hosts="https://elasticsearch-pv2s-production.up.railway.app/",
     basic_auth=("elastic", "2qq0lvgc89lwh6z5jp2q9280dcneaf95")
 )
-indices = elastic_client.cat.indices(h='index').split()
+'''indices = elastic_client.cat.indices(h='index').split()
 
 for index in indices:
     print(f"Удаляю индекс: {index}")
     elastic_client.indices.delete(index=index, ignore=[400, 404])
 
-print("Все индексы удалены.")
+print("Все индексы удалены.")'''
 
 elastic_store = ElasticsearchStore(
     es_url="https://elasticsearch-pv2s-production.up.railway.app/",
