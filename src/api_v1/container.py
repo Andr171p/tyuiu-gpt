@@ -7,7 +7,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_community.chat_models import ChatYandexGPT
 from langchain_core.output_parsers.string import StrOutputParser
 
-from src.rag.hybrid import HybridRAG
+from src.rag.naive import HybridRAG
 from src.rag.rag_utils import format_docs, load_txt
 from src.services.chat_bot_service import ChatBotService
 from src.config import settings

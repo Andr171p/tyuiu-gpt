@@ -16,7 +16,8 @@ from langchain_core.output_parsers import BaseTransformOutputParser
 from langchain_core.language_models import BaseChatModel, BaseLLM
 
 from src.rag import BaseRAG
-from src.rag.hybrid import HybridRAG
+from src.rag.naive import NaiveRAG
+# from src.rag.query_rewriter import QueryRewriter
 from src.misc.file_readers import read_txt
 from src.config import settings
 
@@ -71,18 +72,31 @@ class RAGProvider(Provider):
 
     @provide(scope=Scope.APP)
     def get_prompt(self) -> ChatPromptTemplate:
-        return ChatPromptTemplate.from_template(read_txt(settings.prompts.prompt_path))
+        return ChatPromptTemplate.from_template(read_txt(settings.prompts.rag_prompt))
 
     @provide(scope=Scope.APP)
     def get_model(self) -> BaseChatModel | BaseLLM:
         return YandexGPT(
             api_key=settings.yandexgpt.api_key,
-            folder_id=settings.yandexgpt.folder_id,
+            folder_id=settings.yandexgpt.folder_id
         )
 
     @provide(scope=Scope.APP)
     def get_parser(self) -> BaseTransformOutputParser:
         return StrOutputParser()
+
+    '''@provide(scope=Scope.APP)
+    def get_query_rewriter(
+            self,
+            model: BaseChatModel | BaseLLM,
+            parser: BaseTransformOutputParser
+    ) -> QueryRewriter:
+        prompt = ChatPromptTemplate.from_template(read_txt(settings.prompts.query_rewriter_prompt))
+        return QueryRewriter(
+            prompt=prompt,
+            model=model,
+            parser=parser
+        )'''
 
     @provide(scope=Scope.APP)
     def get_rag(
@@ -92,7 +106,7 @@ class RAGProvider(Provider):
             model: BaseChatModel | BaseLLM,
             parser: BaseTransformOutputParser
     ) -> BaseRAG:
-        return HybridRAG(
+        return NaiveRAG(
             retriever=retriever,
             prompt=prompt,
             model=model,

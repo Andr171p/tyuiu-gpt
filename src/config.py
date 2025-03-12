@@ -38,7 +38,8 @@ class YandexGPTSettings(BaseSettings):
 
 
 class PromptsSettings(BaseSettings):
-    prompt_path: str = os.path.join(BASE_DIR, "prompts", "Сотрудник_приёмной_комиссии.txt")
+    rag_prompt: str = os.path.join(BASE_DIR, "prompts", "Сотрудник_приёмной_комиссии.txt")
+    query_rewriter_prompt: str = os.path.join(BASE_DIR, "prompts", "Перефразирование_запроса.txt")
 
 
 class Settings(BaseSettings):
