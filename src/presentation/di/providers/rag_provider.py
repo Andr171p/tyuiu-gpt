@@ -3,23 +3,23 @@ from dishka import Provider, provide, Scope
 from elasticsearch import Elasticsearch
 from langchain_elasticsearch import ElasticsearchStore
 from langchain_community.retrievers import ElasticSearchBM25Retriever
-from langchain.embeddings import HuggingFaceEmbeddings
+
+from langchain.prompts import ChatPromptTemplate
 from langchain.retrievers import EnsembleRetriever
-from langchain_core.prompts import ChatPromptTemplate
 from langchain_community.llms.yandex import YandexGPT
+from langchain.embeddings import HuggingFaceEmbeddings
 from langchain_core.output_parsers.string import StrOutputParser
 
-from langchain_core.vectorstores import VectorStore, VectorStoreRetriever
-from langchain_core.retrievers import BaseRetriever
 from langchain_core.embeddings import Embeddings
-from langchain_core.output_parsers import BaseTransformOutputParser
+from langchain_core.retrievers import BaseRetriever
 from langchain_core.language_models import BaseChatModel, BaseLLM
+from langchain_core.output_parsers import BaseTransformOutputParser
+from langchain_core.vectorstores import VectorStore, VectorStoreRetriever
 
+from src.rag import RAG
 from src.rag import BaseRAG
-from src.rag.naive import NaiveRAG
-# from src.rag.query_rewriter import QueryRewriter
-from src.misc.file_readers import read_txt
 from src.config import settings
+from src.misc.file_readers import read_txt
 
 
 class RAGProvider(Provider):
@@ -85,19 +85,6 @@ class RAGProvider(Provider):
     def get_parser(self) -> BaseTransformOutputParser:
         return StrOutputParser()
 
-    '''@provide(scope=Scope.APP)
-    def get_query_rewriter(
-            self,
-            model: BaseChatModel | BaseLLM,
-            parser: BaseTransformOutputParser
-    ) -> QueryRewriter:
-        prompt = ChatPromptTemplate.from_template(read_txt(settings.prompts.query_rewriter_prompt))
-        return QueryRewriter(
-            prompt=prompt,
-            model=model,
-            parser=parser
-        )'''
-
     @provide(scope=Scope.APP)
     def get_rag(
             self,
@@ -106,7 +93,7 @@ class RAGProvider(Provider):
             model: BaseChatModel | BaseLLM,
             parser: BaseTransformOutputParser
     ) -> BaseRAG:
-        return NaiveRAG(
+        return RAG(
             retriever=retriever,
             prompt=prompt,
             model=model,
