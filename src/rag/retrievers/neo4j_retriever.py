@@ -7,7 +7,7 @@ from langchain_core.callbacks import CallbackManagerForRetrieverRun
 from langchain_core.documents import Document
 from langchain_core.retrievers import BaseRetriever
 
-from src.rag.rag_utils import build_subgraph_from_cursor
+from src.rag.utils import build_subgraph_from_cursor
 
 
 class Neo4jRetriever(BaseRetriever):
@@ -57,8 +57,6 @@ class Neo4jRetriever(BaseRetriever):
             *,
             run_manager: CallbackManagerForRetrieverRun
     ) -> List[Optional[Document]]:
-        print(f"query: {query}")
-        # subgraph = self.get_subgraph_by_entity_name(query)
         subgraph = self.get_subgraph_by_entities_names(query)
         if subgraph is None:
             return []
@@ -85,14 +83,4 @@ class Neo4jRetriever(BaseRetriever):
                 metadata={"node_id": node_id, **node_props}
             )
             documents.append(document)
-
         return documents
-
-
-'''from src.config import settings
-retriever = Neo4jRetriever(settings.neo4j.uri)
-docs = retriever.invoke(
-    ['ТИУ', 'ИСТОРИЯ', 'ДРУГИЕ_ВОЙСКА', 'О-ЗФО']
-)
-print(docs)
-'''

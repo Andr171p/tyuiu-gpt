@@ -1,11 +1,8 @@
-from fastapi import APIRouter
-from fastapi.responses import JSONResponse
-
+from fastapi import APIRouter, status
 from dishka.integrations.fastapi import FromDishka, DishkaRoute
 
-from src.core.use_cases import ChatBotUseCase
-from src.presentation.api.v1.schemas import UserMessageSchema
-from src.presentation.api.v1.presenters import AnswerPresenter
+from src.controllers import ChatBotController
+from src.schemas import QuestionPost, AnswerResponse
 
 
 chatbot_router = APIRouter(
@@ -15,10 +12,14 @@ chatbot_router = APIRouter(
 )
 
 
-@chatbot_router.post(path="/", response_model=AnswerPresenter)
-async def get_answer(
-        user_message: UserMessageSchema,
-        chatbot: FromDishka[ChatBotUseCase]
-) -> JSONResponse:
-    answer = await chatbot.answer(user_message.question)
-    return AnswerPresenter(answer=answer).present()
+@chatbot_router.post(
+    path="/",
+    response_model=AnswerResponse,
+    status_code=status.HTTP_200_OK
+)
+async def answer(
+        question_post: QuestionPost,
+        chatbot_controller: FromDishka[ChatBotController]
+) -> AnswerResponse:
+    answer_response = await chatbot_controller.get_answer_response(question_post)
+    return answer_response

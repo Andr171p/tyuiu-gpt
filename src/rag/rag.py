@@ -1,24 +1,25 @@
 from typing import TYPE_CHECKING, Union
 
 if TYPE_CHECKING:
+    from langchain_core.language_models.llms import LLM
     from langchain_core.retrievers import BaseRetriever
     from langchain_core.prompts import BasePromptTemplate
     from langchain_core.language_models import BaseChatModel
-    from langchain_core.language_models.llms import LLM
     from langchain_core.output_parsers import BaseTransformOutputParser
 
 from langchain_core.runnables import RunnablePassthrough
 
-from src.rag.rag_utils import format_docs
+
 from src.rag.base_rag import BaseRAG
+from src.rag.utils import format_docs
 
 
-class NaiveRAG(BaseRAG):
+class RAG(BaseRAG):
     def __init__(
             self,
             retriever: "BaseRetriever",
             prompt: "BasePromptTemplate",
-            model: Union["LLM", "BaseChatModel"],
+            model: Union["BaseChatModel", "LLM"],
             parser: "BaseTransformOutputParser"
     ) -> None:
         self._chain = (

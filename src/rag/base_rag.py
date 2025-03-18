@@ -7,8 +7,6 @@ from abc import ABC, abstractmethod
 
 
 class BaseRAG(ABC):
-    _chain: "Runnable"
-
     @abstractmethod
     async def generate(self, query: str) -> str:
         raise NotImplemented
