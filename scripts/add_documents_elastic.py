@@ -10,6 +10,8 @@ from langchain_community.retrievers import ElasticSearchBM25Retriever
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# FILE_PATH = BASE_DIR / "documents" / "texts" / "ТИУ_База_знаний.txt"
+
 FILE_PATH = BASE_DIR / "documents" / "texts" / "ТИУ_Описание_направлений_подготовки.txt"
 
 
@@ -47,6 +49,7 @@ elastic_client = Elasticsearch(
     hosts="https://elasticsearch-pv2s-production.up.railway.app/",
     basic_auth=("elastic", "2qq0lvgc89lwh6z5jp2q9280dcneaf95")
 )
+
 '''indices = elastic_client.cat.indices(h='index').split()
 
 for index in indices:
