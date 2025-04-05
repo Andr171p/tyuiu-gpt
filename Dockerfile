@@ -1,6 +1,6 @@
 FROM python:3.11
 
-WORKDIR /chat_bot_api
+WORKDIR /chatbot_api
 
 COPY requirements.txt .
 

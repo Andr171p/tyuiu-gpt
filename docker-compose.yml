@@ -1,14 +1,40 @@
-version: '3'
+version: "3.8"
+
 services:
-  neo4j:
-    image: neo4j:latest
-    container_name: neo4j
-    ports:
-      - "7474:7474"
-      - "7687:7687"
-    volumes:
-      - ./.docker/data:/data
+  elastic:
+    image: elasticsearch:8.16.1
     environment:
-      - NEO4J_AUTH=none
-      - NEO4J_dbms_memory_pagecache_size=512M
-      - NEO4J_dbms_memory_heap_max__size=1024M
+      ES_JAVA_OPTS: "-Xmx512m -Xms512m"
+      ELASTIC_USERNAME: "elastic"
+      ELASTIC_PASSWORD: "password"
+      discovery.type: single-node
+    volumes:
+      - .docker/configs/elasticsearch/config.yml:/usr/share/elasticsearch/docker/config/elasticsearch.yml:ro
+      - elastic-data:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    networks:
+      - app-network
+
+  chatbot_api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - ELASTICSEARCH_URL=http://elastic:9200
+      - ELASTICSEARCH_USERNAME=elastic
+      - ELASTICSEARCH_PASSWORD=password
+    depends_on:
+      - elastic
+    networks:
+      - app-network
+
+volumes:
+  elastic-data:
+
+networks:
+  app-network:
+    driver: bridge
