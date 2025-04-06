@@ -7,7 +7,8 @@ from langchain_community.retrievers import ElasticSearchBM25Retriever
 from langchain.prompts import ChatPromptTemplate
 from langchain.retrievers import EnsembleRetriever
 from langchain_community.llms.yandex import YandexGPT
-from langchain.embeddings import HuggingFaceEmbeddings
+# from langchain.embeddings import HuggingFaceEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_core.output_parsers.string import StrOutputParser
 
 from langchain_core.embeddings import Embeddings

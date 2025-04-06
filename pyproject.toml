@@ -23,6 +23,7 @@ yandexcloud = "^0.334.0"
 yandex-cloud-ml-sdk = "^0.4.1"
 dishka = "^1.4.2"
 email-validator = "^2.2.0"
+langchain-huggingface = "^0.1.2"
 
 
 [build-system]
