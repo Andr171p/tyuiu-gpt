@@ -6,7 +6,7 @@ COPY requirements.txt .
 
 RUN pip install --upgrade pip
 
-RUN pip install --upgrade transformers
+RUN pip install transformers==4.30.0
 
 RUN pip install --no-cache-dir -r requirements.txt
 
