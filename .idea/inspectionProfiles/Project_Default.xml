@@ -4,8 +4,9 @@
     <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="ignoredPackages">
         <value>
-          <list size="1">
+          <list size="2">
             <item index="0" class="java.lang.String" itemvalue="email-validator" />
+            <item index="1" class="java.lang.String" itemvalue="transformers" />
           </list>
         </value>
       </option>
@@ -14,6 +15,15 @@
       <option name="ignoredNames">
         <list>
           <option value="input" />
+          <option value="filter" />
+          <option value="id" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="str.decode" />
         </list>
       </option>
     </inspection_tool>

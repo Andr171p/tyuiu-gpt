@@ -1,5 +1,5 @@
 __all__ = (
-    "chatbot_router"
+    "chat_router"
 )
 
-from src.presentation.api.v1.routers.chatbot_router import chatbot_router
+from src.presentation.api.v1.routers.chat import chat_router

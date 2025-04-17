@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from dishka.integrations.fastapi import setup_dishka
 
 from src.presentation.api.v1.routers import chatbot_router
-from src.presentation.di import container
+from src.di import container
 
 
 def create_app() -> FastAPI:
