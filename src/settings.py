@@ -31,6 +31,16 @@ class RedisSettings(BaseSettings):
     password: str = os.getenv("REDIS_PASSWORD")
 
 
+class PostgresSettings(BaseSettings):
+    host: str = ""
+    port: int = 0
+    user: str = ""
+    password: str = ""
+    db: str = ""
+    driver: str = "asyncpg"
+    url: str = ""
+
+
 class Neo4jSettings(BaseSettings):
     uri: str = os.getenv("NEO4J_URI")
 
