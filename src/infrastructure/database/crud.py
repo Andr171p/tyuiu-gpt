@@ -1,12 +1,20 @@
 from datetime import datetime
 
+from abc import ABC, abstractmethod
 from typing import Sequence, Optional, Tuple, List
 
 from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.infrastructure.database.models import MessageModel
-from src.infrastructure.database.crud.base_crud import BaseCRUD
+from src.infrastructure.database.models import BaseModel, MessageModel
+
+
+class BaseCRUD(ABC):
+    _session: "AsyncSession"
+
+    @abstractmethod
+    async def create(self, model: BaseModel) -> int:
+        raise NotImplemented
 
 
 class MessageCRUD(BaseCRUD):
@@ -71,22 +79,32 @@ class MessageCRUD(BaseCRUD):
         messages = await self._session.execute(stmt)
         return messages.scalars().all()
 
-    async def read_count(self) -> Optional[int]:
+    async def read_unique_chat_ids(self) -> Sequence[str]:
+        stmt = select(MessageModel.chat_id.distinct())
+        chat_ids = await self._session.execute(stmt)
+        return chat_ids.scalars().all()
+
+    async def read_unique_count(self) -> int:
+        stmt = select(func.count(MessageModel.chat_id.distinct()))
+        count = await self._session.execute(stmt)
+        return count.scalar_one()
+
+    async def read_total_count(self) -> int:
         stmt = (
             select(func.count)
             .select_from(MessageModel)
         )
         messages_count = await self._session.execute(stmt)
-        return messages_count.scalar_one_or_none()
+        return messages_count.scalar_one()
 
-    async def read_count_by_chat_id(self, chat_id: str) -> Optional[int]:
+    async def read_count_by_chat_id(self, chat_id: str) -> int:
         stmt = (
             select(func.count)
             .select_from(MessageModel)
             .where(MessageModel.chat_id == chat_id)
         )
         messages_count = await self._session.execute(stmt)
-        return messages_count.scalar_one_or_none()
+        return messages_count.scalar_one()
 
     async def read_count_per_day(self) -> Sequence[Tuple[datetime, int]]:
         stmt = (

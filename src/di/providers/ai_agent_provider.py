@@ -19,12 +19,16 @@ from langgraph.checkpoint.base import BaseCheckpointSaver
 from src.infrastructure.llms.yandex_gpt import YandexGPTChatModel
 from src.infrastructure.checkpoint_savers.redis import AsyncRedisCheckpointSaver
 
-from src.settings import settings
+from src.ai_agent import BaseAgent, ReACTAgent
+from src.ai_agent.tools import RetrievalTool
+
+from src.misc.files import read_txt
+from src.settings import Settings
 
 
-class LangchainProvider(Provider):
+class AIAgentProvider(Provider):
     @provide(scope=Scope.APP)
-    def get_embeddings(self) -> Embeddings:
+    def get_embeddings(self, settings: Settings) -> Embeddings:
         return HuggingFaceEmbeddings(
             model_name=settings.embeddings.model_name,
             model_kwargs=settings.embeddings.model_kwargs,
@@ -32,14 +36,14 @@ class LangchainProvider(Provider):
         )
 
     @provide(scope=Scope.APP)
-    def get_elasticsearch(self) -> Elasticsearch:
+    def get_elasticsearch(self, settings: Settings) -> Elasticsearch:
         return Elasticsearch(
             hosts=settings.elasticsearch.host,
             basic_auth=(settings.elasticsearch.user, settings.elasticsearch.password)
         )
 
     @provide(scope=Scope.APP)
-    def get_redis(self) -> AsyncRedis:
+    def get_redis(self, settings: Settings) -> AsyncRedis:
         return AsyncRedis(
             host=settings.redis.host,
             port=settings.redis.port,
@@ -48,7 +52,7 @@ class LangchainProvider(Provider):
         )
 
     @provide(scope=Scope.APP)
-    def get_vector_store(self, embeddings: Embeddings) -> VectorStore:
+    def get_vector_store(self, settings: Settings, embeddings: Embeddings) -> VectorStore:
         return ElasticsearchStore(
             es_url=settings.elasticsearch.host,
             es_user=settings.elasticsearch.user,
@@ -80,7 +84,7 @@ class LangchainProvider(Provider):
         )
 
     @provide(scope=Scope.APP)
-    def get_model(self) -> BaseChatModel:
+    def get_model(self, settings: Settings) -> BaseChatModel:
         return YandexGPTChatModel(
             api_key=settings.yandex_gpt.api_key,
             folder_id=settings.yandex_gpt.folder_id,
@@ -90,3 +94,22 @@ class LangchainProvider(Provider):
     @provide(scope=Scope.APP)
     def get_checkpoint_saver(self, redis: AsyncRedis) -> BaseCheckpointSaver:
         return AsyncRedisCheckpointSaver(redis)
+
+    @provide(scope=Scope.APP)
+    def get_retrieval_tool(self, retriever: BaseRetriever) -> RetrievalTool:
+        return RetrievalTool(retriever)
+
+    @provide(scope=Scope.APP)
+    def get_react_agent(
+            self,
+            settings: Settings,
+            checkpoint_saver: BaseCheckpointSaver,
+            retrieval_tool: RetrievalTool,
+            model: BaseChatModel
+    ) -> BaseAgent:
+        return ReACTAgent(
+            checkpoint_saver=checkpoint_saver,
+            tools=[retrieval_tool],
+            prompt_template=read_txt(settings.prompts.agent_prompt),
+            model=model
+        )

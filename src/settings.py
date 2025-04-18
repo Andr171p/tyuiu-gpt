@@ -65,10 +65,8 @@ class Settings(BaseSettings):
     embeddings: EmbeddingsSettings = EmbeddingsSettings()
     elasticsearch: ElasticsearchSettings = ElasticsearchSettings()
     redis: RedisSettings = RedisSettings()
+    postgres: PostgresSettings = PostgresSettings()
     neo4j: Neo4jSettings = Neo4jSettings()
     giga_chat: GigaChatSettings = GigaChatSettings()
     yandex_gpt: YandexGPTSettings = YandexGPTSettings()
     prompts: PromptsSettings = PromptsSettings()
-
-
-settings = Settings()

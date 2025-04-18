@@ -24,7 +24,7 @@ class RAGAgent(BaseAgent):
         self._prompt_template = prompt_template
         self._model = model
 
-    async def generate(self, query: str) -> str:
+    async def generate(self, thread_id: str, query: str) -> str:
         rag_chain = self._create_rag_chain()
         response = await rag_chain.ainvoke(query)
         return response

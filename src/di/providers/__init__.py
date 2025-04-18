@@ -1,7 +1,9 @@
 __all__ = (
-    "LangchainProvider",
-    "ChatAssistantProvider"
+    "AIAgentProvider",
+    "DatabaseProvider",
+    "AppProvider"
 )
 
-from src.di.providers.langchain_provider import LangchainProvider
-from src.di.providers.chat_assistant import ChatAssistantProvider
+from src.di.providers.ai_agent_provider import AIAgentProvider
+from src.di.providers.database_provider import DatabaseProvider
+from src.di.providers.app_provider import AppProvider
