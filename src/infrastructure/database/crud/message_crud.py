@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from typing import Sequence, Optional, Tuple
+from typing import Sequence, Optional, Tuple, List
 
 from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -19,6 +19,14 @@ class MessageCRUD(BaseCRUD):
         await self._session.commit()
         await self._session.refresh(message)
         return id
+
+    async def create_many(self, messages: List[MessageModel]) -> List[int]:
+        for message in messages:
+            self._session.add(message)
+        await self._session.flush()
+        ids = [message.id for message in messages]
+        await self._session.commit()
+        return ids
 
     async def read_by_chat_id(self, chat_id: str) -> Sequence[Optional[MessageModel]]:
         stmt = (

@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from src.core.entities import Chat
 from src.infrastructure.database.crud import ChatCRUD
@@ -21,5 +21,9 @@ class ChatRepository(BaseRepository):
     async def total_count(self) -> int:
         return await self._crud.read_count()
 
-    async def count_per_day(self) -> List[PerDayCount]:
-        ...
+    async def count_per_day(self) -> List[Optional[PerDayCount]]:
+        count_per_day = await self._crud.read_count_per_day()
+        return [
+            PerDayCount(date=date, count=count)
+            for date, count in count_per_day
+        ] if count_per_day else []
