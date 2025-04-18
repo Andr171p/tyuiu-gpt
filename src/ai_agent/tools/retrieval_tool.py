@@ -7,8 +7,6 @@ from langchain_core.tools import BaseTool
 from langchain_core.retrievers import BaseRetriever
 
 from src.ai_agent.utils import format_documents
-from src.misc.files import read_txt
-from src.settings import settings
 
 
 logger = logging.getLogger(__name__)

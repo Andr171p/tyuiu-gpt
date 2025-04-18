@@ -1,13 +1,15 @@
-from typing import List, Union
+from datetime import datetime
+
+from typing import List
 
 from pydantic import BaseModel
 
-from src.core.entities.messages import UserMessage, AssistantMessage
+from src.core.entities.messages import BaseMessage
 
 
 class Chat(BaseModel):
     chat_id: str
-    messages: List[Union[UserMessage, AssistantMessage]]
+    messages: List[BaseMessage]
 
 
 class ChatPage(BaseModel):
@@ -15,4 +17,18 @@ class ChatPage(BaseModel):
     page: int
     limit: int
     chat_id: str
-    messages: List[Union[UserMessage, AssistantMessage]]
+    messages: List[BaseMessage]
+
+
+class DateToCount(BaseModel):
+    date: datetime
+    count: int
+
+
+class MessagesDateToCount(BaseModel):
+    distribution: List[DateToCount]
+
+
+class ChatMessagesDateToCount(BaseModel):
+    chat_id: str
+    distribution: List[DateToCount]

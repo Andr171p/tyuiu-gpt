@@ -9,5 +9,6 @@ class MessageMapper:
     def from_orm(message: MessageModel) -> Union[UserMessage, AssistantMessage]:
         if message.role == "user":
             return UserMessage.model_validate(message)
-        return AssistantMessage.model_validate(message)
+        else:
+            return AssistantMessage.model_validate(message)
 

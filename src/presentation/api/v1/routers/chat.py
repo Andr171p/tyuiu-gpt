@@ -3,7 +3,6 @@ from typing import Union
 from fastapi import APIRouter, status, Query
 from dishka.integrations.fastapi import FromDishka, DishkaRoute
 
-from src.dto import TotalCount
 from src.core.use_cases import ChatAssistant, ChatHistoryManager
 from src.core.entities import UserMessage, AssistantMessage, Chat, ChatPage
 
@@ -42,16 +41,3 @@ async def get_chat(
     if is_paginated:
         return await chat_history_manager.chat_history_page(chat_id, page, limit)
     return await chat_history_manager.chat_history(chat_id)
-
-
-@chat_router.get(
-    path="/messages/count/{chat_id}",
-    status_code=status.HTTP_200_OK,
-    response_model=TotalCount
-)
-async def get_chat_length(
-        chat_id: str,
-        chat_history_manager: FromDishka[ChatHistoryManager]
-) -> TotalCount:
-    count = await chat_history_manager.chat_length(chat_id)
-    return TotalCount()

@@ -1,6 +1,6 @@
-from typing import List, Union
+from typing import List
 
-from src.core.entities import Chat, ChatPage, AssistantMessage, UserMessage
+from src.core.entities import Chat, ChatPage, BaseMessage, MessagesDateToCount
 from src.repository import MessageRepository
 
 
@@ -8,7 +8,7 @@ class ChatHistoryManager:
     def __init__(self, message_repository: MessageRepository) -> None:
         self._message_repository = message_repository
 
-    async def save_messages(self, messages: List[Union[UserMessage, AssistantMessage]]) -> None:
+    async def save_messages(self, messages: List[BaseMessage]) -> None:
         await self._message_repository.save_many(messages)
 
     async def chat_history(self, chat_id: str) -> Chat:
@@ -28,3 +28,7 @@ class ChatHistoryManager:
 
     async def chat_length(self, chat_id: str) -> int:
         return await self._message_repository.get_count_by_chat_id(chat_id)
+
+    async def messages_date_to_count(self) -> MessagesDateToCount:
+        date_to_count = await self._message_repository.count_per_day()
+        return MessagesDateToCount(distribution=date_to_count)

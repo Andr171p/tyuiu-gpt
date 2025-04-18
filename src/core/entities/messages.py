@@ -1,19 +1,17 @@
-from enum import Enum
+from typing import Literal
 
 from pydantic import BaseModel
 
 
-class Roles(str, Enum):
-    USER = "user"
-    ASSISTANT = "assistant"
-
-
-class UserMessage(BaseModel):
-    role: str = Roles.USER
+class BaseMessage(BaseModel):
     chat_id: str
+    role: Literal["user", "assistant"]
     text: str
 
 
-class AssistantMessage(BaseModel):
-    role: str = Roles.ASSISTANT
-    text: str
+class UserMessage(BaseMessage):
+    role: str = "user"
+
+
+class AssistantMessage(BaseMessage):
+    role: str = "assistant"
