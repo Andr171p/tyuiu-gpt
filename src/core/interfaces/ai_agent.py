@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class BaseAgent(ABC):
+class BaseAIAgent(ABC):
     @abstractmethod
-    async def generate(self, thread_id: str, query: str) -> str:
+    async def generate(self, *args) -> str:
         raise NotImplemented

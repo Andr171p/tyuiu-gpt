@@ -3,8 +3,10 @@ from typing import Union
 from fastapi import APIRouter, status, Query
 from dishka.integrations.fastapi import FromDishka, DishkaRoute
 
-from src.core.use_cases import ChatAssistant, ChatHistoryManager
-from src.core.entities import UserMessage, AssistantMessage, Chat, ChatPage
+from src.core.use_cases import ChatAssistant
+from src.core.entities import UserMessage, AssistantMessage
+from src.repository import MessageRepository
+from src.presentation.api.v1.schemas import ChatSchema, ChatPageSchema
 
 
 chat_router = APIRouter(
@@ -29,15 +31,24 @@ async def answer(
 @chat_router.get(
     path="/messages/{chat_id}",
     status_code=status.HTTP_200_OK,
-    response_model=Union[Chat, ChatPage]
+    response_model=Union[ChatSchema, ChatPageSchema]
 )
 async def get_chat(
         chat_id: str,
-        chat_history_manager: FromDishka[ChatHistoryManager],
+        repository: FromDishka[MessageRepository],
         is_paginated: bool = Query(default=False),
         page: int = Query(ge=1, default=1),
         limit: int = Query(ge=1, default=10)
-) -> Union[Chat, ChatPage]:
+) -> Union[ChatSchema, ChatPageSchema]:
     if is_paginated:
-        return await chat_history_manager.chat_history_page(chat_id, page, limit)
-    return await chat_history_manager.chat_history(chat_id)
+        messages = await repository.list_page(chat_id, page, limit)
+        total = await repository.total_count()
+        return ChatPageSchema(
+            total=total,
+            page=page,
+            limit=limit,
+            chat_id=chat_id,
+            messages=messages
+        )
+    messages = await repository.get(chat_id)
+    return ChatSchema(chat_id=chat_id, messages=messages)

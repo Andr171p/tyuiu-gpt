@@ -19,10 +19,12 @@ from langgraph.checkpoint.base import BaseCheckpointSaver
 from src.infrastructure.llms.yandex_gpt import YandexGPTChatModel
 from src.infrastructure.checkpoint_savers.redis import AsyncRedisCheckpointSaver
 
-from src.ai_agent import BaseAgent, ReACTAgent
+from src.core.interfaces import BaseAIAgent
+
+from src.ai_agent import ReACTAgent
 from src.ai_agent.tools import RetrievalTool
 
-from src.misc.files import read_txt
+from src.utils import read_txt
 from src.settings import Settings
 
 
@@ -106,7 +108,7 @@ class AIAgentProvider(Provider):
             checkpoint_saver: BaseCheckpointSaver,
             retrieval_tool: RetrievalTool,
             model: BaseChatModel
-    ) -> BaseAgent:
+    ) -> BaseAIAgent:
         return ReACTAgent(
             checkpoint_saver=checkpoint_saver,
             tools=[retrieval_tool],

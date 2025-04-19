@@ -3,6 +3,7 @@ from dishka import Provider, provide, Scope, from_context
 from src.ai_agent import BaseAgent
 from src.repository import MessageRepository
 from src.core.use_cases import ChatAssistant, ChatHistoryManager
+from src.infrastructure.connection_managers import BaseConnectionManager, InMemoryConnectionManager
 
 from src.settings import Settings
 
@@ -15,5 +16,9 @@ class AppProvider(Provider):
         return ChatAssistant(ai_agent)
 
     @provide(scope=Scope.APP)
-    async def get_chat_history_manager(self, message_repository: MessageRepository) -> ChatHistoryManager:
+    def get_chat_history_manager(self, message_repository: MessageRepository) -> ChatHistoryManager:
         return ChatHistoryManager(message_repository)
+
+    @provide(scope=Scope.APP)
+    def get_connection_manager(self) -> BaseConnectionManager:
+        return InMemoryConnectionManager()
