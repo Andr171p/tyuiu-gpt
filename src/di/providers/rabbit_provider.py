@@ -1,6 +1,6 @@
 from dishka import Provider, provide, Scope
 
-from faststream.rabbit import RabbitBroker
+from faststream.rabbit import RabbitBroker, RabbitPublisher
 
 from src.settings import Settings
 

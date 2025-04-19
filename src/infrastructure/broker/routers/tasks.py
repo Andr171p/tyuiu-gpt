@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 tasks_router = RabbitRouter()
 
 
-@tasks_router.subscriber("chat.tasks.save-messages")
+@tasks_router.subscriber("chat.tasks.messages")
 async def save_messages(
         messages: List[BaseMessage],
         repository: FromDishka[MessageRepository]

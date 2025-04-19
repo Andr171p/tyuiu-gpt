@@ -1,7 +1,9 @@
 from typing import Union
 
-from fastapi import APIRouter, status, Query
+from fastapi import APIRouter, status, Query, BackgroundTasks
 from dishka.integrations.fastapi import FromDishka, DishkaRoute
+
+from faststream.rabbit import RabbitBroker
 
 from src.core.use_cases import ChatAssistant
 from src.core.entities import UserMessage, AssistantMessage
@@ -23,9 +25,17 @@ chat_router = APIRouter(
 )
 async def answer(
         user_message: UserMessage,
-        chat_assistant: FromDishka[ChatAssistant]
+        chat_assistant: FromDishka[ChatAssistant],
+        background_tasks: BackgroundTasks,
+        broker: FromDishka[RabbitBroker]
 ) -> AssistantMessage:
-    return await chat_assistant.answer(user_message)
+    assistant_message = await chat_assistant.answer(user_message)
+    background_tasks.add_task(
+        broker.publish,
+        [user_message, assistant_message],
+        queue="chat.tasks.messages"
+    )
+    return assistant_message
 
 
 @chat_router.get(
