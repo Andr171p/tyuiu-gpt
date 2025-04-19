@@ -32,14 +32,14 @@ class RedisSettings(BaseSettings):
 
 
 class PostgresSettings(BaseSettings):
-    host: str = ""
-    port: int = 0
-    user: str = ""
-    password: str = ""
-    db: str = ""
+    host: str = os.getenv("PG_HOST")
+    port: int = os.getenv("PG_PORT")
+    user: str = os.getenv("PG_USER")
+    password: str = os.getenv("PG_PASSWORD")
+    db: str = os.getenv("PG_DB")
     driver: str = "asyncpg"
 
-    url: str = ""
+    url: str = f"postgresql+{driver}://{user}:{password}@{host}:{port}/{db}"
 
 
 class RabbitSettings(BaseSettings):
