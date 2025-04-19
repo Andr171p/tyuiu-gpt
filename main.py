@@ -14,7 +14,7 @@ from src.core.use_cases import ChatAssistant
 
 async def main() -> None:
     chat_assistant = await container.get(ChatAssistant)
-    user_message = UserMessage(chat_id="1", text="Какие документы нужны для поступления")
+    user_message = UserMessage(chat_id="1", text="Какие льготы предусмотрены для студентов ТИУ")
     message = await chat_assistant.answer(user_message)
     print(message)
 

@@ -1,7 +1,5 @@
 __all__ = (
-    "ChatAssistant",
-    "ChatHistoryManager"
+    "ChatAssistant"
 )
 
 from src.core.use_cases.chat_assistant import ChatAssistant
-from src.core.use_cases.chat_history_manager import ChatHistoryManager

@@ -5,10 +5,14 @@ from src.di.providers import (
     AIAgentProvider,
     DatabaseProvider
 )
+from src.settings import Settings
 
+
+settings = Settings()
 
 container = make_async_container(
     AppProvider(),
     AIAgentProvider(),
-    DatabaseProvider()
+    DatabaseProvider(),
+    context={Settings: settings}
 )
