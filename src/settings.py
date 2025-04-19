@@ -38,7 +38,17 @@ class PostgresSettings(BaseSettings):
     password: str = ""
     db: str = ""
     driver: str = "asyncpg"
+
     url: str = ""
+
+
+class RabbitSettings(BaseSettings):
+    host: str = os.getenv("RABBIT_HOST")
+    port: int = os.getenv("RABBIT_PORT")
+    user: str = os.getenv("RABBIT_USER")
+    password: str = os.getenv("RABBIT_PASSWORD")
+
+    url: str = f"amqp://{user}:{password}@{host}:{port}"
 
 
 class Neo4jSettings(BaseSettings):
@@ -57,6 +67,7 @@ class YandexGPTSettings(BaseSettings):
 
 
 class PromptsSettings(BaseSettings):
+    agent_prompt: Path = BASE_DIR / "prompts" / "ai_agent_prompt.txt"
     rag_prompt: str = os.path.join(BASE_DIR, "prompts", "Сотрудник_приёмной_комиссии.txt")
     query_rewriter_prompt: str = os.path.join(BASE_DIR, "prompts", "Перефразирование_запроса.txt")
 

@@ -29,3 +29,4 @@ aioredis~=2.0.1
 langgraph~=0.3.30
 redis~=5.2.1
 SQLAlchemy~=2.0.40
+faststream~=0.5.39
