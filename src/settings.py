@@ -77,6 +77,7 @@ class Settings(BaseSettings):
     elasticsearch: ElasticsearchSettings = ElasticsearchSettings()
     redis: RedisSettings = RedisSettings()
     postgres: PostgresSettings = PostgresSettings()
+    rabbit: RabbitSettings = RabbitSettings()
     neo4j: Neo4jSettings = Neo4jSettings()
     giga_chat: GigaChatSettings = GigaChatSettings()
     yandex_gpt: YandexGPTSettings = YandexGPTSettings()

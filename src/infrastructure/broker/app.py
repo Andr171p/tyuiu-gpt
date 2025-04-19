@@ -1,15 +1,14 @@
 from faststream import FastStream
+from faststream.rabbit import RabbitBroker
 from dishka.integrations.faststream import setup_dishka
 
-from src.infrastructure.broker.setup import create_broker
 from src.infrastructure.broker.routers import chat_router, tasks_router
 
 from src.di import container
-from src.settings import RabbitSettings
 
 
-def create_faststream_app() -> FastStream:
-    broker = create_broker(RabbitSettings())
+async def create_faststream_app() -> FastStream:
+    broker = await container.get(RabbitBroker)
     broker.include_routers(chat_router, tasks_router)
     app = FastStream(broker)
     setup_dishka(

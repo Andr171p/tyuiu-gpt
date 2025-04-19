@@ -5,5 +5,5 @@ from pydantic import BaseModel
 from src.core.entities import BaseMessage
 
 
-class SaveMessagesSchema(BaseModel):
+class MessagesToSaveSchema(BaseModel):
     messages: List[BaseMessage]
