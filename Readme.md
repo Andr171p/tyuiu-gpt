@@ -64,7 +64,7 @@ Parameters:<br>
 | limit | integer, minimum 1, default 10 | Количетсво элементов на странице |
 
 
-Response body if is_paginated = False:
+Response body if <b>is_paginated = False</b>:
 ```typescript
 {
   "chat_id": "string",
@@ -78,7 +78,7 @@ Response body if is_paginated = False:
 }
 ```
 
-Response body if is_paginated = True:
+Response body if <b>is_paginated = True</b>:
 ```typescript
 {
   "total": "integer",
