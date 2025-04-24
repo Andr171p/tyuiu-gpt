@@ -1,6 +1,6 @@
 FROM python:3.11
 
-WORKDIR /chatbot_api
+WORKDIR /tyuiu_gpt
 
 COPY requirements.txt .
 
