@@ -18,7 +18,17 @@ class RetrievalToolInput(BaseModel):
 
 class RetrievalTool(BaseTool):
     name: str = "RetrievalTool"
-    description: str = "Ищет информацию для ответы на вопросы абитуриента"
+    description: str = """"
+    Ищет информацию для ответы на вопросы абитуриента
+    
+    Может найти информация для ответа на вопросы касаемо:
+    * процесса поступления
+    * информация о направлениях подготовки
+    * проходных / минимальных баллов
+    * дополнительных баллов
+    * льготы, квоты, особые права
+    * прочие вопросы касаемо поступления
+    """
     args_schema: Optional[Type[BaseModel]] = RetrievalToolInput
 
     def __init__(self, retriever: BaseRetriever, **kwargs: Any) -> None:

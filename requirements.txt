@@ -32,3 +32,4 @@ SQLAlchemy~=2.0.40
 faststream~=0.5.39
 alembic~=1.15.2
 aio-pika~=9.5.5
+asyncpg~=0.30.0
