@@ -8,6 +8,9 @@ class BaseMessage(BaseModel):
     role: Literal["user", "assistant"]
     text: str
 
+    class Config:
+        from_attributes = True
+
 
 class UserMessage(BaseMessage):
     role: str = "user"
