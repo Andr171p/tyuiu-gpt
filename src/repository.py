@@ -5,7 +5,7 @@ from src.core.domain import BaseMessage
 from src.dto import DateToCountDTO
 from src.infrastructure.database.crud import MessageCRUD
 from src.infrastructure.database.models import MessageModel
-from src.mappers import MessageMapper
+from src.dto import MessageMapper
 
 
 class MessageRepository(AbstractRepository):
