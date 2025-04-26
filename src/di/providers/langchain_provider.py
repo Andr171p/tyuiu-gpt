@@ -47,13 +47,7 @@ class LangchainProvider(Provider):
 
     @provide(scope=Scope.APP)
     def get_redis(self, settings: Settings) -> AsyncRedis:
-        return AsyncRedis(
-            host=settings.redis.host,
-            port=settings.redis.port,
-            username=settings.redis.user,
-            password=settings.redis.password,
-            ssl=True,  # если Redis использует TLS
-        )
+        return AsyncRedis.from_url(settings.redis.url)
 
     @provide(scope=Scope.APP)
     def get_vector_store(self, settings: Settings, embeddings: Embeddings) -> VectorStore:

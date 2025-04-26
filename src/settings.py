@@ -30,6 +30,8 @@ class RedisSettings(BaseSettings):
     user: str = os.getenv("REDIS_USER")
     password: str = os.getenv("REDIS_PASSWORD")
 
+    url: str = f"redis://{user}:{password}@{host}:{port}"
+
 
 class PostgresSettings(BaseSettings):
     host: str = os.getenv("PG_HOST")
