@@ -4,7 +4,7 @@ from dishka import Provider, provide, Scope
 
 from sqlalchemy.ext.asyncio import async_sessionmaker, AsyncSession
 
-from src.infrastructure.database.db import create_session_maker
+from src.infrastructure.database.session import create_session_maker
 from src.infrastructure.database.crud import MessageCRUD
 from src.repository import MessageRepository
 

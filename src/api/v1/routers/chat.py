@@ -6,9 +6,9 @@ from dishka.integrations.fastapi import FromDishka, DishkaRoute
 from faststream.rabbit import RabbitBroker
 
 from src.core.use_cases import ChatAssistant
-from src.core.domain import UserMessage, AssistantMessage
+from src.core.entities import UserMessage, AssistantMessage
 from src.repository import MessageRepository
-from src.presentation.api.v1.schemas import ChatSchema, ChatPageSchema
+from src.api.v1.schemas import ChatSchema, ChatPageSchema
 
 
 chat_router = APIRouter(

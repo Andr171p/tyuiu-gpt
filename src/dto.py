@@ -4,7 +4,7 @@ from typing import Union
 
 from pydantic import BaseModel
 
-from src.core.domain import UserMessage, AssistantMessage
+from src.core.entities import UserMessage, AssistantMessage
 from src.infrastructure.database.models import MessageModel
 
 

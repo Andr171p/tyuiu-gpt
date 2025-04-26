@@ -4,7 +4,7 @@ from typing import Optional
 
 from fastapi import WebSocket
 
-from src.presentation.api.connection_managers.base_connection_manager import BaseConnectionManager
+from src.api.connection_managers.base import BaseConnectionManager
 
 
 logger = logging.getLogger(__name__)

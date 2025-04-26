@@ -5,8 +5,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from dishka.integrations.fastapi import setup_dishka
 
-from src.presentation.api.lifespan import lifespan
-from src.presentation.api.v1.routers import (
+from src.api.lifespan import lifespan
+from src.api.v1.routers import (
     chat_router,
     socket_chat_router
 )

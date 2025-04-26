@@ -1,14 +1,14 @@
 from typing import List, Optional
 
-from src.core.interfaces import AbstractRepository
-from src.core.domain import BaseMessage
+from src.core.interfaces import AbstractMessageRepository
+from src.core.entities import BaseMessage
 from src.dto import DateToCountDTO
 from src.infrastructure.database.crud import MessageCRUD
 from src.infrastructure.database.models import MessageModel
 from src.dto import MessageMapper
 
 
-class MessageRepository(AbstractRepository):
+class MessageRepository(AbstractMessageRepository):
     def __init__(self, crud: MessageCRUD) -> None:
         self._crud = crud
 

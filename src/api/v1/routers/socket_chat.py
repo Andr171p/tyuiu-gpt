@@ -1,9 +1,9 @@
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 from dishka.integrations.fastapi import DishkaRoute, FromDishka, inject
 
-from src.core.domain import UserMessage
+from src.core.entities import UserMessage
 from src.core.use_cases import ChatAssistant
-from src.presentation.api.connection_managers import BaseConnectionManager
+from src.api.connection_managers import BaseConnectionManager
 
 
 socket_chat_router = APIRouter(

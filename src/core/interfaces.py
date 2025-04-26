@@ -3,6 +3,8 @@ from abc import ABC, abstractmethod
 
 from pydantic import BaseModel
 
+from src.core.entities import BaseMessage
+
 
 class AbstractAIAgent(ABC):
     @abstractmethod
@@ -21,4 +23,14 @@ class AbstractRepository(ABC):
 
     @abstractmethod
     async def list(self) -> List[BaseModel]:
+        raise NotImplemented
+
+
+class AbstractMessageRepository(AbstractRepository):
+    @abstractmethod
+    async def save_many(self, messages: List[BaseMessage]) -> List[int]:
+        raise NotImplemented
+
+    @abstractmethod
+    async def list_page(self, chat_id: str, page: int, limit: int) -> List[BaseMessage]:
         raise NotImplemented

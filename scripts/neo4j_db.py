@@ -1,11 +1,13 @@
 import re
 from pathlib import Path
-from neo4j import GraphDatabase
+from neo4j_db import GraphDatabase
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-FILE_PATH = BASE_DIR / "notebooks" / "ТИУ_Графовая_База_знаний.txt"
+# FILE_PATH = BASE_DIR / "scripts" / "ТИУ_проходные_баллы_2024.txt"
+
+FILE_PATH: Path = BASE_DIR / "scripts" / "ТИУ_проходные_баллы_2024.txt"
 
 # uri = "bolt://localhost:7687"
 
@@ -13,14 +15,15 @@ uri = "bolt://shortline.proxy.rlwy.net:53207"
 
 driver = GraphDatabase.driver(uri)
 
-def clear_database(tx):
+'''def clear_database(tx):
     tx.run("MATCH (n) DETACH DELETE n;")
 
 with driver.session() as session:
-    session.write_transaction(clear_database)
-    print("Graph was cleared")
+    session.execute_write(clear_database)
 
 driver.close()
+
+print("Graph database cleared")'''
 
 
 with open(FILE_PATH, mode="r", encoding="utf-8") as file:
@@ -42,7 +45,7 @@ for match in entity_pattern.finditer(data):
         "description": entity_description.strip()
     })
 print(f"---Count of entities: {len(entities)}---")
-print(entities[1575])
+print(entities[15])
 
 relationships: list[dict] = []
 for match in relationship_pattern.finditer(data):
@@ -56,31 +59,37 @@ for match in relationship_pattern.finditer(data):
 print(f"---Count of relationships: {len(relationships)}---")
 
 
-def add_entity(tx, entity) -> None:
-    print("+")
+def create_entities(tx, entities) -> None:
     tx.run(
-        "CREATE (e:Entity {name: $name, type: $type, description: $description})",
-        name=entity["name"], type=entity["type"], description=entity["description"]
-    )
-
-
-def add_relationship(tx, relation) -> None:
-    tx.run("""
-        MATCH (a:Entity {name: $source}), (b:Entity {name: $target})
-        CREATE (a)-[r:RELATION {type: $type, description: $description}]->(b)
+        """
+        UNWIND $entities AS entity
+        MERGE (e:Entity {name: entity.name})
+        ON CREATE SET e.type = entity.type, e.description = entity.description
         """,
-        source=relation["source"],
-        target=relation["target"],
-        type=relation["type"],
-        description=relation["description"]
+        entities=entities
     )
+
+
+def create_relationships(tx, relationships) -> None:
+    tx.run(
+        """
+        UNWIND $relationships AS rel
+        MATCH (a:Entity {name: rel.source}), (b:Entity {name: rel.target})
+        MERGE (a)-[r:RELATION {type: rel.type}]->(b)
+        ON CREATE SET r.description = rel.description
+        """,
+        relationships=relationships
+    )
+
+
+def process_in_batches(session, data, batch_size=1000, func=None):
+    for i in range(0, len(data), batch_size):
+        batch = data[i:i+batch_size]
+        session.execute_write(func, batch)
 
 
 with driver.session() as session:
-    for entity in entities:
-        session.execute_write(add_entity, entity)
-
-    for relation in relationships:
-        session.execute_write(add_relationship, relation)
+    process_in_batches(session, entities, batch_size=1000, func=create_entities)
+    process_in_batches(session, relationships, batch_size=1000, func=create_relationships)
 
 driver.close()
