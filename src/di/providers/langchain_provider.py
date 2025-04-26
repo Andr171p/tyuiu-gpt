@@ -51,7 +51,8 @@ class LangchainProvider(Provider):
             host=settings.redis.host,
             port=settings.redis.port,
             username=settings.redis.user,
-            password=settings.redis.password
+            password=settings.redis.password,
+            ssl=True,  # если Redis использует TLS
         )
 
     @provide(scope=Scope.APP)
