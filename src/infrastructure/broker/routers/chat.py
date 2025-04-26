@@ -4,7 +4,7 @@ from faststream.rabbit import RabbitRouter
 from dishka.integrations.base import FromDishka
 
 from src.core.use_cases import ChatAssistant
-from src.core.entities import UserMessage, AssistantMessage
+from src.core.domain import UserMessage, AssistantMessage
 
 
 logger = logging.getLogger(__name__)

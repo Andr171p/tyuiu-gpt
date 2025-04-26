@@ -1,7 +1,7 @@
 from typing import List, Optional
 
 from src.core.interfaces import AbstractRepository
-from src.core.entities import BaseMessage
+from src.core.domain import BaseMessage
 from src.dto import DateToCountDTO
 from src.infrastructure.database.crud import MessageCRUD
 from src.infrastructure.database.models import MessageModel

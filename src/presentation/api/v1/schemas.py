@@ -3,7 +3,7 @@ from typing import List
 from pydantic import BaseModel
 
 from src.dto import DateToCountDTO
-from src.core.entities.messages import BaseMessage
+from src.core.domain import BaseMessage
 
 
 class ChatSchema(BaseModel):

@@ -4,6 +4,12 @@ from abc import ABC, abstractmethod
 from pydantic import BaseModel
 
 
+class AbstractAIAgent(ABC):
+    @abstractmethod
+    async def generate(self, *args) -> str:
+        raise NotImplemented
+
+
 class AbstractRepository(ABC):
     @abstractmethod
     async def save(self, model: BaseModel) -> int:

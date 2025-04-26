@@ -1,5 +1,5 @@
 from src.core.interfaces import AbstractAIAgent
-from src.core.entities import UserMessage, AssistantMessage
+from src.core.domain import UserMessage, AssistantMessage
 
 
 class ChatAssistant:
