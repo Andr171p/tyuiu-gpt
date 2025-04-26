@@ -9,13 +9,13 @@ from langgraph.graph import START, StateGraph, MessagesState
 from langchain_core.tools import BaseTool
 from langchain_core.language_models import BaseChatModel
 
-from src.core.interfaces import BaseAIAgent
+from src.core.interfaces import AbstractAIAgent
 
 
 logger = logging.getLogger(__name__)
 
 
-class ReACTAgent(BaseAIAgent):
+class ReACTAgent(AbstractAIAgent):
     def __init__(
             self,
             checkpoint_saver: BaseCheckpointSaver,

@@ -1,6 +1,6 @@
 from typing import List, Optional
 
-from src.core.interfaces import BaseRepository
+from src.core.interfaces import AbstractRepository
 from src.core.entities import BaseMessage
 from src.dto import DateToCountDTO
 from src.infrastructure.database.crud import MessageCRUD
@@ -8,7 +8,7 @@ from src.infrastructure.database.models import MessageModel
 from src.mappers import MessageMapper
 
 
-class MessageRepository(BaseRepository):
+class MessageRepository(AbstractRepository):
     def __init__(self, crud: MessageCRUD) -> None:
         self._crud = crud
 

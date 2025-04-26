@@ -1,7 +1,7 @@
 __all__ = (
-    "BaseAIAgent",
-    "BaseRepository"
+    "AbstractAIAgent",
+    "AbstractRepository"
 )
 
-from src.core.interfaces.ai_agent import BaseAIAgent
-from src.core.interfaces.repository import BaseRepository
+from src.core.interfaces.ai_agent import AbstractAIAgent
+from src.core.interfaces.repository import AbstractRepository

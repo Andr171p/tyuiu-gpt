@@ -1,9 +1,9 @@
-from src.core.interfaces import BaseAIAgent
+from src.core.interfaces import AbstractAIAgent
 from src.core.entities import UserMessage, AssistantMessage
 
 
 class ChatAssistant:
-    def __init__(self, ai_agent: BaseAIAgent) -> None:
+    def __init__(self, ai_agent: AbstractAIAgent) -> None:
         self._ai_agent = ai_agent
 
     async def answer(self, user_message: UserMessage) -> AssistantMessage:

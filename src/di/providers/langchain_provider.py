@@ -11,6 +11,7 @@ from langchain_huggingface import HuggingFaceEmbeddings
 
 from langchain_core.embeddings import Embeddings
 from langchain_core.retrievers import BaseRetriever
+from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.language_models import BaseChatModel
 from langchain_core.vectorstores import VectorStore, VectorStoreRetriever
 
@@ -19,16 +20,16 @@ from langgraph.checkpoint.base import BaseCheckpointSaver
 from src.infrastructure.llms.yandex_gpt import YandexGPTChatModel
 from src.infrastructure.checkpoint_savers.redis import AsyncRedisCheckpointSaver
 
-from src.core.interfaces import BaseAIAgent
+from src.core.interfaces import AbstractAIAgent
 
-from src.ai_agent import ReACTAgent
-from src.ai_agent.tools import RetrievalTool
+from src.ai_agent.agents import RAGAgent
+from src.ai_agent.nodes import RetrieverNode, GenerationNode
 
 from src.utils import read_txt
 from src.settings import Settings
 
 
-class AIAgentProvider(Provider):
+class LangchainProvider(Provider):
     @provide(scope=Scope.APP)
     def get_embeddings(self, settings: Settings) -> Embeddings:
         return HuggingFaceEmbeddings(
@@ -98,20 +99,30 @@ class AIAgentProvider(Provider):
         return AsyncRedisCheckpointSaver(redis)
 
     @provide(scope=Scope.APP)
-    def get_retrieval_tool(self, retriever: BaseRetriever) -> RetrievalTool:
-        return RetrievalTool(retriever)
+    def get_retriever_node(self, retriever: BaseRetriever) -> RetrieverNode:
+        return RetrieverNode(retriever)
 
     @provide(scope=Scope.APP)
-    def get_react_agent(
+    def get_prompt(self, settings: Settings) -> ChatPromptTemplate:
+        return ChatPromptTemplate.from_template(read_txt(settings.prompts.rag_prompt))
+
+    @provide(scope=Scope.APP)
+    def get_generation_node(
             self,
-            settings: Settings,
-            checkpoint_saver: BaseCheckpointSaver,
-            retrieval_tool: RetrievalTool,
+            prompt: ChatPromptTemplate,
             model: BaseChatModel
-    ) -> BaseAIAgent:
-        return ReACTAgent(
-            checkpoint_saver=checkpoint_saver,
-            tools=[retrieval_tool],
-            prompt_template=read_txt(settings.prompts.agent_prompt),
-            model=model
+    ) -> GenerationNode:
+        return GenerationNode(prompt, model)
+
+    @provide(scope=Scope.APP)
+    def get_ai_agent(
+            self,
+            retriever_node: RetrieverNode,
+            generation_node: GenerationNode,
+            checkpoint_saver: BaseCheckpointSaver
+    ) -> AbstractAIAgent:
+        return RAGAgent(
+            retriever_node=retriever_node,
+            generation_node=generation_node,
+            checkpoint_saver=checkpoint_saver
         )
