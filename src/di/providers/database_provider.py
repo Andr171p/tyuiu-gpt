@@ -6,7 +6,8 @@ from sqlalchemy.ext.asyncio import async_sessionmaker, AsyncSession
 
 from src.infrastructure.database.session import create_session_maker
 from src.infrastructure.database.crud import MessageCRUD
-from src.repository import MessageRepository
+from src.repository import MessageRepositoryImpl
+from src.core.interfaces import MessageRepository
 
 from src.settings import Settings
 
@@ -30,4 +31,4 @@ class DatabaseProvider(Provider):
 
     @provide(scope=Scope.REQUEST)
     def get_message_repository(self, crud: MessageCRUD) -> MessageRepository:
-        return MessageRepository(crud)
+        return MessageRepositoryImpl(crud)

@@ -2,16 +2,16 @@ from typing import List
 
 from pydantic import BaseModel
 
-from src.dto import DateToCountDTO
+from src.dto import CreationDateCount
 from src.core.entities import BaseMessage
 
 
-class ChatSchema(BaseModel):
+class ChatResponse(BaseModel):
     chat_id: str
     messages: List[BaseMessage]
 
 
-class ChatPageSchema(BaseModel):
+class ChatPageResponse(BaseModel):
     total: int
     page: int
     limit: int
@@ -20,4 +20,4 @@ class ChatPageSchema(BaseModel):
 
 
 class MessagesDateToCountSchema(BaseModel):
-    distribution: List[DateToCountDTO]
+    distribution: List[CreationDateCount]

@@ -6,9 +6,9 @@ from dishka.integrations.fastapi import FromDishka, DishkaRoute
 from faststream.rabbit import RabbitBroker
 
 from src.core.use_cases import ChatAssistant
+from src.core.interfaces import MessageRepository
 from src.core.entities import UserMessage, AssistantMessage
-from src.repository import MessageRepository
-from src.api.v1.schemas import ChatSchema, ChatPageSchema
+from src.api.v1.schemas import ChatResponse, ChatPageResponse
 
 
 chat_router = APIRouter(
@@ -41,7 +41,7 @@ async def answer(
 @chat_router.get(
     path="/messages/{chat_id}",
     status_code=status.HTTP_200_OK,
-    response_model=Union[ChatSchema, ChatPageSchema]
+    response_model=Union[ChatResponse, ChatPageResponse]
 )
 async def get_chat(
         chat_id: str,
@@ -49,11 +49,11 @@ async def get_chat(
         is_paginated: bool = Query(default=False),
         page: int = Query(ge=1, default=1),
         limit: int = Query(ge=1, default=10)
-) -> Union[ChatSchema, ChatPageSchema]:
+) -> Union[ChatResponse, ChatPageResponse]:
     if is_paginated:
         messages = await repository.list_page(chat_id, page, limit)
-        total = await repository.total_count()
-        return ChatPageSchema(
+        total = await repository.count()
+        return ChatPageResponse(
             total=total,
             page=page,
             limit=limit,
@@ -61,4 +61,4 @@ async def get_chat(
             messages=messages
         )
     messages = await repository.get(chat_id)
-    return ChatSchema(chat_id=chat_id, messages=messages)
+    return ChatResponse(chat_id=chat_id, messages=messages)

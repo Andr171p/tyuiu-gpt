@@ -20,7 +20,7 @@ from langgraph.checkpoint.base import BaseCheckpointSaver
 from src.infrastructure.llms.yandex_gpt import YandexGPTChatModel
 from src.infrastructure.checkpoint_savers.redis import AsyncRedisCheckpointSaver
 
-from src.core.interfaces import AbstractAIAgent
+from src.core.interfaces import AIAgent
 
 from src.ai_agent.agents import RAGAgent
 from src.ai_agent.nodes import RetrieverNode, GenerationNode
@@ -115,7 +115,7 @@ class LangchainProvider(Provider):
             retriever_node: RetrieverNode,
             generation_node: GenerationNode,
             checkpoint_saver: BaseCheckpointSaver
-    ) -> AbstractAIAgent:
+    ) -> AIAgent:
         return RAGAgent(
             retriever_node=retriever_node,
             generation_node=generation_node,

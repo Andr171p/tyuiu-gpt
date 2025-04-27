@@ -3,7 +3,7 @@ import logging
 from langgraph.graph import START, END, StateGraph
 from langgraph.checkpoint.base import BaseCheckpointSaver
 
-from src.core.interfaces import AbstractAIAgent
+from src.core.interfaces import AIAgent
 
 from src.ai_agent.states import RAGState
 from src.ai_agent.nodes import RetrieverNode, GenerationNode
@@ -12,7 +12,7 @@ from src.ai_agent.nodes import RetrieverNode, GenerationNode
 logger = logging.getLogger(__name__)
 
 
-class RAGAgent(AbstractAIAgent):
+class RAGAgent(AIAgent):
     def __init__(
             self,
             retriever_node: RetrieverNode,

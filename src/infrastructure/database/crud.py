@@ -1,23 +1,14 @@
 from datetime import datetime
 
-from abc import ABC, abstractmethod
 from typing import Sequence, Optional, Tuple, List
 
 from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.infrastructure.database.models import BaseModel, MessageModel
+from src.infrastructure.database.models import MessageModel
 
 
-class BaseCRUD(ABC):
-    _session: "AsyncSession"
-
-    @abstractmethod
-    async def create(self, model: BaseModel) -> int:
-        raise NotImplemented
-
-
-class MessageCRUD(BaseCRUD):
+class MessageCRUD:
     def __init__(self, session: AsyncSession) -> None:
         self._session = session
 
@@ -91,20 +82,20 @@ class MessageCRUD(BaseCRUD):
 
     async def read_total_count(self) -> int:
         stmt = (
-            select(func.count)
+            select(func.count())
             .select_from(MessageModel)
         )
         messages_count = await self._session.execute(stmt)
-        return messages_count.scalar_one()
+        return messages_count.scalar()
 
     async def read_count_by_chat_id(self, chat_id: str) -> int:
         stmt = (
-            select(func.count)
+            select(func.count())
             .select_from(MessageModel)
             .where(MessageModel.chat_id == chat_id)
         )
         messages_count = await self._session.execute(stmt)
-        return messages_count.scalar_one()
+        return messages_count.scalar()
 
     async def read_count_per_day(self) -> Sequence[Tuple[datetime, int]]:
         stmt = (

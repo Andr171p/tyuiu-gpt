@@ -1,14 +1,13 @@
 from typing import List, Optional
 
-from src.core.interfaces import AbstractMessageRepository
 from src.core.entities import BaseMessage
-from src.dto import DateToCountDTO
+from src.core.interfaces import MessageRepository
+from src.dto import CreationDateCount, MessageMapper
 from src.infrastructure.database.crud import MessageCRUD
 from src.infrastructure.database.models import MessageModel
-from src.dto import MessageMapper
 
 
-class MessageRepository(AbstractMessageRepository):
+class MessageRepositoryImpl(MessageRepository):
     def __init__(self, crud: MessageCRUD) -> None:
         self._crud = crud
 
@@ -38,16 +37,16 @@ class MessageRepository(AbstractMessageRepository):
     async def count_by_chat_id(self, chat_id: str) -> int:
         return await self._crud.read_count_by_chat_id(chat_id)
 
-    async def unique_chat_ids(self) -> List[str]:
+    async def get_chat_ids(self) -> List[str]:
         chat_ids = await self._crud.read_unique_chat_ids()
         return [chat_id for chat_id in chat_ids]
 
-    async def total_count(self) -> int:
+    async def count(self) -> int:
         return await self._crud.read_total_count()
 
-    async def count_per_day(self) -> List[Optional[DateToCountDTO]]:
-        count_per_day = await self._crud.read_count_per_day()
+    async def count_by_creation_date(self) -> List[Optional[CreationDateCount]]:
+        counts = await self._crud.read_count_per_day()
         return [
-            DateToCountDTO(date=date, count=count)
-            for date, count in count_per_day
-        ] if count_per_day else []
+            CreationDateCount(date=date, count=count)
+            for date, count in counts
+        ] if counts else []

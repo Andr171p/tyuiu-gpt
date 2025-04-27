@@ -17,6 +17,6 @@ class MessageMapper:
             return AssistantMessage.model_validate(message)
 
 
-class DateToCountDTO(BaseModel):
+class CreationDateCount(BaseModel):
     date: datetime
     count: int
