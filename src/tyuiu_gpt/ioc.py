@@ -1,13 +1,14 @@
-from dishka import Provider, provide, Scope
+from dishka import Provider, provide, Scope, from_context, make_async_container
 
 from redis.asyncio import Redis as AsyncRedis
 
 from elasticsearch import Elasticsearch
 from langchain_elasticsearch import ElasticsearchStore
+
+from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.retrievers import ElasticSearchBM25Retriever
 
 from langchain.retrievers import EnsembleRetriever
-from langchain_huggingface import HuggingFaceEmbeddings
 
 from langchain_core.embeddings import Embeddings
 from langchain_core.retrievers import BaseRetriever
@@ -17,19 +18,18 @@ from langchain_core.vectorstores import VectorStore, VectorStoreRetriever
 
 from langgraph.checkpoint.base import BaseCheckpointSaver
 
-from src.tyuiu_gpt.infrastructure.llms import YandexGPTChatModel
-from src.tyuiu_gpt.infrastructure.checkpoint_savers.redis import AsyncRedisCheckpointSaver
+from .infrastructure.llms.yandex_gpt import YandexGPTChatModel
+from .infrastructure.checkpoint_savers.redis import AsyncRedisCheckpointSaver
 
-from src.core.interfaces import AIAgent
+from .interfaces import AIAgent
 
-from src.tyuiu_gpt.ai_agent import RAGAgent
-from src.tyuiu_gpt.ai_agent import RetrieverNode, GenerationNode
+from .ai_agent.agents import RAGAgent
+from .ai_agent.nodes import RetrieverNode, GenerationNode
 
-from src.utils import read_txt
-from src.tyuiu_gpt.settings import Settings
+from .settings import Settings
 
 
-class LangchainProvider(Provider):
+class AppProvider(Provider):
     @provide(scope=Scope.APP)
     def get_embeddings(self, settings: Settings) -> Embeddings:
         return HuggingFaceEmbeddings(

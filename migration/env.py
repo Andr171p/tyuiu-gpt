@@ -7,8 +7,8 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from alembic import context
 
-from src.infrastructure.database.models import BaseModel, MessageModel
-from src.settings import PostgresSettings
+from src.tyuiu_gpt.infrastructure.database.models import BaseModel
+from src.tyuiu_gpt.settings import PostgresSettings
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

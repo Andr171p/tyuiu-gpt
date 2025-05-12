@@ -6,7 +6,7 @@ from src.di.providers import (
     LangchainProvider,
     InfrastructureProvider
 )
-from src.settings import Settings
+from src.tyuiu_gpt.settings import Settings
 
 
 settings = Settings()

@@ -4,12 +4,12 @@ from dishka import Provider, provide, Scope
 
 from sqlalchemy.ext.asyncio import async_sessionmaker, AsyncSession
 
-from src.infrastructure.database.session import create_session_maker
-from src.infrastructure.database.crud import MessageCRUD
+from src.tyuiu_gpt.infrastructure.database.session import create_session_maker
+from src.tyuiu_gpt.infrastructure.database.repository import MessageCRUD
 from src.repository import MessageRepositoryImpl
 from src.core.interfaces import MessageRepository
 
-from src.settings import Settings
+from src.tyuiu_gpt.settings import Settings
 
 
 class DatabaseProvider(Provider):

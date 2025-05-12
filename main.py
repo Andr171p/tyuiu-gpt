@@ -1,6 +1,6 @@
 import logging
 
-from src.api.app import create_fastapi_app
+from src.tyuiu_gpt.api.app import create_fastapi_app
 
 
 logging.basicConfig(level=logging.INFO)

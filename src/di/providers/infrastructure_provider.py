@@ -2,8 +2,8 @@ from dishka import Provider, provide, Scope
 
 from faststream.rabbit import RabbitBroker
 
-from src.settings import Settings
-from src.api.connection_managers import (
+from src.tyuiu_gpt.settings import Settings
+from src.tyuiu_gpt.api.connection_managers import (
     BaseConnectionManager,
     InMemoryConnectionManager
 )

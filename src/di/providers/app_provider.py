@@ -3,7 +3,7 @@ from dishka import Provider, provide, Scope, from_context
 from src.core.use_cases import ChatAssistant
 from src.core.interfaces import AIAgent
 
-from src.settings import Settings
+from src.tyuiu_gpt.settings import Settings
 
 
 class AppProvider(Provider):
