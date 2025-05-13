@@ -20,8 +20,5 @@ def create_fastapi_app() -> FastAPI:
         allow_methods=["*"],
         allow_headers=["*"],
     )
-    setup_dishka(
-        container=container,
-        app=app,
-    )
+    setup_dishka(container=container, app=app)
     return app

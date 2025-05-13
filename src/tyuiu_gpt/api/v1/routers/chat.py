@@ -4,8 +4,7 @@ from dishka.integrations.fastapi import FromDishka, DishkaRoute
 
 from faststream.rabbit import RabbitBroker
 
-from src.tyuiu_gpt.service import ChatAssistant
-from src.tyuiu_gpt.interfaces import MessageRepository
+from src.tyuiu_gpt.interfaces import AIAgent, MessageRepository
 from src.tyuiu_gpt.schemas import UserMessage, AssistantMessage, ChatPage
 from src.tyuiu_gpt.constants import DEFAULT_PAGE, DEFAULT_LIMIT, MIN_PAGE, MIN_LIMIT
 
@@ -24,11 +23,12 @@ chat_router = APIRouter(
 )
 async def answer(
         user_message: UserMessage,
-        chat_assistant: FromDishka[ChatAssistant],
+        ai_agent: FromDishka[AIAgent],
         background_tasks: BackgroundTasks,
         broker: FromDishka[RabbitBroker]
 ) -> AssistantMessage:
-    assistant_message = await chat_assistant.answer(user_message)
+    generated = await ai_agent.generate(user_message.chat_id, user_message.text)
+    assistant_message = AssistantMessage(chat_id=user_message.chat_id, text=generated)
     background_tasks.add_task(
         broker.publish,
         [user_message, assistant_message],
