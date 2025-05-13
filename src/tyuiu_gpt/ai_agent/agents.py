@@ -14,14 +14,14 @@ from .nodes import RetrieverNode, GenerationNode
 class RAGAgent(AIAgent):
     def __init__(
             self,
-            retriever_node: RetrieverNode,
-            generation_node: GenerationNode,
+            retriever: RetrieverNode,
+            generation: GenerationNode,
             checkpoint_saver: BaseCheckpointSaver
     ) -> None:
         workflow = StateGraph(AgentState)
 
-        workflow.add_node("retrieve", retriever_node)
-        workflow.add_node("generate", generation_node)
+        workflow.add_node("retrieve", retriever)
+        workflow.add_node("generate", generation)
 
         workflow.add_edge(START, "retrieve")
         workflow.add_edge("retrieve", "generate")

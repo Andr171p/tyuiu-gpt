@@ -1,7 +1,5 @@
-from collections.abc import AsyncGenerator
-
 from typing import Any
-
+from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 
 import logging
