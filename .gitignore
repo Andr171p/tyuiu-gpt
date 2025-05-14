@@ -77,3 +77,5 @@ secrets.env
 .env.local
 .env.
 .env
+
+scripts

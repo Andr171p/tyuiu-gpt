@@ -68,7 +68,6 @@ class YandexGPTSettings(BaseSettings):
     API_KEY: str = os.getenv("YANDEX_GPT_API_KEY")
 
 
-
 class Settings(BaseSettings):
     embeddings: EmbeddingsSettings = EmbeddingsSettings()
     elasticsearch: ElasticsearchSettings = ElasticsearchSettings()
