@@ -1,5 +1,25 @@
 services:
-  elastic:
+  postgres:
+    image: postgres:13-alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=tyuiu
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "8432:5432"
+
+  redis:
+    image: redis:6-alpine
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+    ports:
+      - "8379:6379"
+
+  elasticsearch:
     image: elasticsearch:8.16.1
     environment:
       ES_JAVA_OPTS: "-Xmx512m -Xms512m"
@@ -8,31 +28,29 @@ services:
       discovery.type: single-node
     volumes:
       - .docker/configs/elasticsearch/config.yml:/usr/share/elasticsearch/docker/config/elasticsearch.yml:ro
-      - elastic-data:/usr/share/elasticsearch/data
+      - elasticsearch_data:/usr/share/elasticsearch/data
     ports:
       - "9200:9200"
       - "9300:9300"
-    networks:
-      - app-network
 
-  chatbot_api:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "8000:8000"
+  tyuiu-gpt:
+    build: .
+    restart: unless-stopped
+    volumes:
+      - .:/tyuiu_gpt
     environment:
-      - ELASTICSEARCH_URL=http://elastic:9200
-      - ELASTICSEARCH_USERNAME=elastic
-      - ELASTICSEARCH_PASSWORD=password
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/tyuiu
+      - REDIS_URL=redis://redis:6379
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+    ports:
+      - "8001:8000"
     depends_on:
-      - elastic
-    networks:
-      - app-network
+      - postgres
+      - redis
+      - elasticsearch
+
 
 volumes:
-  elastic-data:
-
-networks:
-  app-network:
-    driver: bridge
+  postgres_data:
+  redis_data:
+  elasticsearch_data:

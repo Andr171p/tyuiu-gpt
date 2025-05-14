@@ -29,12 +29,10 @@ class ElasticsearchSettings(BaseSettings):
 class RedisSettings(BaseSettings):
     REDIS_HOST: str = os.getenv("REDIS_HOST")
     REDIS_PORT: int = os.getenv("REDIS_PORT")
-    REDIS_USER: str = os.getenv("REDIS_USER")
-    REDIS_PASSWORD: str = os.getenv("REDIS_PASSWORD")
 
     @property
     def redis_url(self) -> str:
-        return f"redis://{self.REDIS_USER}:{self.REDIS_PASSWORD}@{self.REDIS_HOST}:{self.REDIS_PORT}"
+        return f"redis://{self.REDIS_HOST}:{self.REDIS_PORT}/0"
 
 
 class PostgresSettings(BaseSettings):
@@ -43,8 +41,6 @@ class PostgresSettings(BaseSettings):
     PG_USER: str = os.getenv("POSTGRES_USER")
     PG_PASSWORD: str = os.getenv("POSTGRES_PASSWORD")
     PG_DB: str = os.getenv("POSTGRES_DB")
-
-    DRIVER: str = "asyncpg"
 
     @property
     def sqlalchemy_url(self) -> str:
@@ -59,7 +55,7 @@ class RabbitSettings(BaseSettings):
 
     @property
     def rabbit_url(self) -> str:
-        return f"amqp://{self.RABBIT_USER}:{self.RABBIT_PASSWORD}@{self.RABBIT_HOST}:{self.RABBIT_PORT}"
+        return f"amqp://{self.RABBIT_USER}:{self.RABBIT_PASSWORD}@{self.RABBIT_HOST}:{self.RABBIT_PORT}/"
 
 
 class GigaChatSettings(BaseSettings):

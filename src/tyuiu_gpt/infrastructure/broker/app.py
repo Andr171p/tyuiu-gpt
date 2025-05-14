@@ -1,10 +1,11 @@
 from faststream import FastStream
 from faststream.rabbit import RabbitBroker
+
 from dishka.integrations.faststream import setup_dishka
 
 from src.tyuiu_gpt.infrastructure.broker.routers import chat_router, tasks_router
 
-from src.di import container
+from src.tyuiu_gpt.ioc import container
 
 
 async def create_faststream_app() -> FastStream:
