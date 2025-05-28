@@ -10,7 +10,7 @@ load_dotenv(ENV_PATH)
 
 
 class EmbeddingsSettings(BaseSettings):
-    MODEL_NAME: str = "intfloat/multilingual-e5-large"
+    MODEL_NAME: str = os.getenv("EMBEDDINGS_MODEL_NAME")
     MODEL_KWARGS: dict = {"device": "cpu"}
     ENCODE_KWARGS: dict = {'normalize_embeddings': False}
 
