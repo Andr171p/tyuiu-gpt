@@ -23,14 +23,14 @@ from langchain_core.vectorstores import VectorStore, VectorStoreRetriever
 from langgraph.checkpoint.base import BaseCheckpointSaver
 
 from .infrastructure.llms.yandex_gpt import YandexGPTChatModel
-from .infrastructure.checkpoint_savers.redis import AsyncRedisCheckpointSaver
+from .infrastructure.checkpointers.redis import AsyncRedisCheckpointSaver
 from .infrastructure.database.session import create_session_maker
 from .infrastructure.database.repository import SQLMessageRepository
 
-from .interfaces import AIAgent, MessageRepository
+from .base import AIAgent, MessageRepository
 
-from .ai_agent.agents import RAGAgent
-from .ai_agent.nodes import RetrieverNode, GenerationNode
+from .ai_agent.agents import ChatAgent
+from .ai_agent.nodes import SummarizeNode, RetrieveNode, GenerateNode
 
 from .settings import Settings
 from .constants import (
@@ -38,7 +38,7 @@ from .constants import (
     BM25_INDEX,
     SIMILARITY_WEIGHT,
     BM25_WEIGHT,
-    YANDEX_GPT_PRO
+    YANDEX_GPT_MODELS
 )
 
 
@@ -121,7 +121,7 @@ class AppProvider(Provider):
         return YandexGPTChatModel(
             api_key=confi.yandex_gpt.API_KEY,
             folder_id=confi.yandex_gpt.FOLDER_ID,
-            model=YANDEX_GPT_PRO
+            model=YANDEX_GPT_MODELS
         )
 
     @provide(scope=Scope.APP)
@@ -129,28 +129,33 @@ class AppProvider(Provider):
         return AsyncRedisCheckpointSaver(redis)
 
     @provide(scope=Scope.APP)
-    def get_retriever_node(self, retriever: BaseRetriever) -> RetrieverNode:
-        return RetrieverNode(retriever)
+    def get_summarize_node(self, model: BaseChatModel) -> SummarizeNode:
+        return SummarizeNode(model)
 
     @provide(scope=Scope.APP)
-    def get_generation_node(self, model: BaseChatModel) -> GenerationNode:
-        return GenerationNode(model)
+    def get_retrieve_node(self, retriever: BaseRetriever) -> RetrieveNode:
+        return RetrieveNode(retriever)
+
+    @provide(scope=Scope.APP)
+    def get_generate_node(self, model: BaseChatModel) -> GenerateNode:
+        return GenerateNode(model)
 
     @provide(scope=Scope.APP)
     def get_ai_agent(
             self,
-            retriever: RetrieverNode,
-            generation: GenerationNode,
+            summarize: SummarizeNode,
+            retrieve: RetrieveNode,
+            generate: GenerateNode,
             checkpoint_saver: BaseCheckpointSaver
     ) -> AIAgent:
-        return RAGAgent(
-            retriever=retriever,
-            generation=generation,
+        return ChatAgent(
+            summarize=summarize,
+            retrieve=retrieve,
+            generate=generate,
             checkpoint_saver=checkpoint_saver
         )
 
 
 settings = Settings()
-
 
 container = make_async_container(AppProvider(), context={Settings: settings})

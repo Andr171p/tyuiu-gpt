@@ -1,10 +1,10 @@
 from typing import Protocol
 
-from .schemas import BaseMessage
+from .schemas import BaseMessage, UserMessage, AssistantMessage
 
 
 class AIAgent(Protocol):
-    async def generate(self, thread_id: str, query: str) -> str: pass
+    async def generate(self, user_message: UserMessage) -> AssistantMessage: pass
 
 
 class MessageRepository(Protocol):

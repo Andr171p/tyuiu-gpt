@@ -6,7 +6,7 @@ import logging
 
 from fastapi import FastAPI
 
-from src.tyuiu_gpt.infrastructure.broker.app import create_faststream_app
+from ..infrastructure.broker.app import create_faststream_app
 
 
 logger = logging.getLogger(__name__)

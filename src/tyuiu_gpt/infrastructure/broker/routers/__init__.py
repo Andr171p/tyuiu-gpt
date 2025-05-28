@@ -1,6 +1,7 @@
 __all__ = (
-    ""
+    "chat_router",
+    "tasks_router"
 )
 
-from src.tyuiu_gpt.infrastructure.broker.routers.chat import chat_router
-from src.tyuiu_gpt.infrastructure.broker.routers.tasks import tasks_router
+from .chat import chat_router
+from .tasks import tasks_router

@@ -1,6 +1,6 @@
-import logging
-
 from typing import Any, List, Optional
+
+import logging
 
 from langchain_core.outputs import ChatResult
 from langchain_core.callbacks import CallbackManagerForLLMRun, AsyncCallbackManagerForLLMRun
@@ -9,8 +9,8 @@ from langchain_core.tools import BaseTool
 from langchain_core.language_models import BaseChatModel
 from langchain_core.messages import ToolMessage, BaseMessage
 
-from src.tyuiu_gpt.infrastructure.llms.yandex_gpt.base import _BaseYandexGPT
-from src.tyuiu_gpt.infrastructure.llms.yandex_gpt.utils import create_messages, create_chat_result
+from .base import _BaseYandexGPT
+from .utils import create_messages, create_chat_result
 
 
 logger = logging.getLogger(__name__)

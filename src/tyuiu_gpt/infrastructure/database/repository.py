@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from .models import MessageModel
 from src.tyuiu_gpt.schemas import BaseMessage
-from src.tyuiu_gpt.interfaces import MessageRepository
+from src.tyuiu_gpt.base import MessageRepository
 
 
 class SQLMessageRepository(MessageRepository):

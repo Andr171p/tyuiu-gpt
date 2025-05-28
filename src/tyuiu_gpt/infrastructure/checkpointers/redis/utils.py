@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING, List, Optional, Tuple
 
 if TYPE_CHECKING:
-    from src.tyuiu_gpt.infrastructure.checkpoint_savers.redis.redis_types import (
+    from .dto import (
         RedisCheckpointKey,
         RedisCheckpointWritesKey
     )
@@ -11,7 +11,7 @@ from langchain_core.runnables import RunnableConfig
 from langgraph.checkpoint.serde.base import SerializerProtocol
 from langgraph.checkpoint.base import CheckpointTuple, PendingWrite
 
-from src.tyuiu_gpt.infrastructure.checkpoint_savers.redis.constants import REDIS_KEY_SEPARATOR
+from .constants import REDIS_KEY_SEPARATOR
 
 
 def _make_redis_checkpoint_key(

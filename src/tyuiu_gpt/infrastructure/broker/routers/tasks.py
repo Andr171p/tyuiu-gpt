@@ -4,7 +4,7 @@ from faststream.rabbit import RabbitRouter
 from dishka.integrations.base import FromDishka
 
 from src.tyuiu_gpt.schemas import BaseMessage
-from src.tyuiu_gpt.interfaces import MessageRepository
+from src.tyuiu_gpt.base import MessageRepository
 
 
 tasks_router = RabbitRouter()

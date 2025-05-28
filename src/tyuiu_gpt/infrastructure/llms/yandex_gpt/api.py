@@ -7,8 +7,8 @@ import asyncio
 import aiohttp
 import requests
 
-from src.tyuiu_gpt.infrastructure.llms.yandex_gpt.constants import AVAILABLE_MODELS
-from src.tyuiu_gpt.infrastructure.llms.yandex_gpt.exceptions import YandexGPTAPIException
+from .constants import AVAILABLE_MODELS
+from .exceptions import YandexGPTAPIException
 
 
 logger = logging.getLogger(__name__)

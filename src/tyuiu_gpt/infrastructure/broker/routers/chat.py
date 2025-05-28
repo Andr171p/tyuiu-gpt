@@ -3,7 +3,7 @@ from faststream.rabbit import RabbitRouter, RabbitBroker
 
 from dishka.integrations.base import FromDishka
 
-from src.tyuiu_gpt.interfaces import AIAgent
+from src.tyuiu_gpt.base import AIAgent
 from src.tyuiu_gpt.schemas import UserMessage, AssistantMessage
 
 
@@ -19,7 +19,6 @@ async def answer(
         logger: Logger
 ) -> AssistantMessage:
     logger.info("Received user message %s", user_message)
-    generated = await ai_agent.generate(user_message.chat_id, user_message.text)
-    assistant_message = AssistantMessage(chat_id=user_message.chat_id, text=generated)
+    assistant_message = await ai_agent.generate(user_message)
     await broker.publish([user_message, assistant_message], queue="chat.tasks.messages")
     return assistant_message
