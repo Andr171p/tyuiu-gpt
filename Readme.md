@@ -1,36 +1,10 @@
-# Документация ТИУ-GPT API
+# AI ассистент приёмной комиссии
 
-# REST API
-
-# Рабочая версия: /api/v1
-
-# Chat
-
-### Основные сущности:
-
-* <b>UserMessage</b>
-
-```json
-{
-  "chat_id": "string",
-  "role": "user",
-  "text": "string"
-}
-```
-
-* <b>AssistantMessage</b>
-
-```json
-{
-  "chat_id": "string",
-  "role": "assistant",
-  "text": "string"
-}
-```
+# API
 
 > POST `/api/v1/chat/completion`
 
-Метод для работы с AI агентом с сохранением контекста диалога.<br>
+Метод для отправки сообщений с сохранением контекста диалога.<br>
 
 Request body:
 ```json
@@ -99,7 +73,7 @@ Response body if <b>is_paginated = True</b>:
 
 > GET /api/v1/ws/chat/{chat_id}
 
-Устанавливает соединение WebSocket для чата в режиме реального времени с AI агентом.
+Устанавливает соединение WebSocket для чата в режиме реального времени.
 
 Parameters:
 
