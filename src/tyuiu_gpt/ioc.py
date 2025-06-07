@@ -87,7 +87,7 @@ class AppProvider(Provider):
     @provide(scope=Scope.APP)
     def get_vector_store(self, config: Settings, embeddings: Embeddings) -> VectorStore:
         return ElasticsearchStore(
-            es_url=config.elasticsearch.elasticsearch_ur,
+            es_url=config.elasticsearch.elasticsearch_url,
             es_user=config.elasticsearch.ELASTIC_USER,
             es_password=config.elasticsearch.ELASTIC_PASSWORD,
             index_name=VECTOR_STORE_INDEX,
